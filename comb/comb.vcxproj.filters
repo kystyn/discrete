@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Combinatoric numbers">
+      <UniqueIdentifier>{214e18f2-4a75-4591-b109-222f18b475d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Limits tester">
+      <UniqueIdentifier>{70d03f66-9422-4781-865d-12e06cff5bee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{63d2e781-d4f8-4bea-a270-32d7dae30237}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="myuint.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="combNumbers.h">
+      <Filter>Source Files\Combinatoric numbers</Filter>
+    </ClInclude>
+    <ClInclude Include="tester.h">
+      <Filter>Source Files\Limits tester</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="combNumbers.cpp">
+      <Filter>Source Files\Combinatoric numbers</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="limitsC.out">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
