@@ -1,5 +1,3 @@
-#include <conio.h>
-
 #include "utils.h"
 #include "tester.h"
 
@@ -15,7 +13,7 @@ void menu( void ) {
   while (true) {
     std::cout << "A - Placements without repeat\nB - Bell\nC - Combinations\n" <<
       "P - Permutations\nU - Placements with repeat\nS - Stirling\nQ - exit\n";
-    c = _getch();
+    std::cin >> c;
 
     if (c == 'Q')
       break;

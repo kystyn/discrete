@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include <exception>
+#include <cmath>
 #include "combNumbers.h"
 
 
