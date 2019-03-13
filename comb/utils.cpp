@@ -1,5 +1,3 @@
-#include <conio.h>
-
 #include "utils.h"
 #include "tester.h"
 

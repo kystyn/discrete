@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ostream>
+
 class myuint32 {
 private:
   friend std::ostream & operator<<( std::ostream &, myuint32 const & );
@@ -12,13 +14,15 @@ public:
 
   myuint32( unsigned int number ) : number(number), MaxInt(0xFFFFFFFF) {}
 
-  myuint32 & operator=( myuint32 &num ) {
-    number = num.number;
-    return *this;
-  }
+  myuint32( myuint32 const &num ) : number(num.number), MaxInt(0xFFFFFFFF) {}
 
   myuint32 & operator=( unsigned int num ) {
     number = num;
+    return *this;
+  }
+
+  myuint32 & operator=( myuint32 const &num ) {
+    number = num.number;
     return *this;
   }
 
@@ -113,10 +117,6 @@ public:
   
   bool operator>=( myuint32 n ) const {
     return number >= n.number;
-  }
-
-  unsigned int to_uint( void ) const {
-    return number;
   }
 
   explicit operator unsigned int( void ) {
