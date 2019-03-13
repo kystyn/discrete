@@ -49,8 +49,10 @@ private:
 
         n = (left + right) / 2;
       }
-      if (n >= m - 1)
+      if (n >= m - 1) {
         std::cout << "for m == " << m << " all n are valuable\n";
+        f << "for m == " << m << " all n are valuable\n";
+      }
       else {
         std::cout << Type << "(" << m << ", " << n << ")\n";
         f << m << ' ' << right << "\n";
