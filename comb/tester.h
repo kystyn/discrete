@@ -8,7 +8,7 @@ private:
   combNumbers N;
 
   template<char Type, int MLimit, int TestCnt = 0>
-  void testF( std::ostream &f ) {
+  void test( std::ostream &f ) {
 
     for (unsigned int m = 2; m <= MLimit; m = TestCnt != 0 ? int(pow(MLimit, 1.0f / (TestCnt + 1e-6)) * m) : m + 1) {
       unsigned int left = 0, right = m;
@@ -63,6 +63,6 @@ public:
   template<char numberType, int MLimit, int TestCnt = 0>
   void run( char const *fileName ) {
     std::ofstream f(fileName);
-    testF<numberType, MLimit, TestCnt>(f);
+    test<numberType, MLimit, TestCnt>(f);
   }
 };

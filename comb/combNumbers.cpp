@@ -52,21 +52,26 @@ myuint32 combNumbers::C( unsigned int m, unsigned int n ) {
   if (n > m / 2)  // C(m, n) == C(m, m - n)
     n = m - n;
 
-  std::vector<std::vector<myuint32>> comb(m + 1);
+  std::vector<myuint32> comb, prevcomb;
 
-  for (unsigned int i = 0; i <= m; i++) {
-    comb[i] = std::vector<myuint32>(std::min((i + 2) / 2, n + 1)); // i + 2 == (i + 1) + 1
-    comb[i][0] = 1;
+  prevcomb.push_back(1);
+
+  for (unsigned int i = 1; i <= m; i++) {
+    comb.resize(std::min((i + 2) / 2, n + 1)); // i + 2 == (i + 1) + 1
+    comb[0] = 1;
+    for (unsigned int j = 1, s = (unsigned int)comb.size(); j < s; j++) {
+      comb[j] = prevcomb[j - 1] + prevcomb[j + heavyside(j - (unsigned int)prevcomb.size()) * (i - 1 - j * 2)];     // C(i - 1, j) == C(i - 1, i - 1 - j)
+    }
+    prevcomb = comb;
   }
 
-  for (unsigned int i = 1; i <= m; i++)
-    for (unsigned int  j = 1, s = (unsigned int)comb[i].size(); j < s; j++)
-      comb[i][j] = comb[i - 1][j - 1] + comb[i - 1][j + heavyside(j - (unsigned int)comb[i - 1].size()) * (i - 1 - j * 2)];     // C(i - 1, j) == C(i - 1, i - 1 - j)
-
-  return comb[m][n];
+  return comb[n];
 }
 
 myuint32 combNumbers::U( unsigned int m, unsigned int n ) {
+
+  if (m == 0 && n == 0)
+    throw "U(0, 0) is undefined!";
 
   int 
     b, t = int(log2(n));

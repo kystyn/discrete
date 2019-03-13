@@ -15,7 +15,7 @@ void menu( void ) {
   while (true) {
     std::cout << "A - Placements without repeat\nB - Bell\nC - Combinations\n" <<
       "P - Permutations\nU - Placements with repeat\nS - Stirling\nQ - exit\n";
-    c = _getch();
+    std::cin >> c;
 
     if (c == 'Q')
       break;
@@ -30,28 +30,28 @@ void menu( void ) {
       case 'A':
         std::cout << "Enter \'n\': ";
         std::cin >> n;
-        std::cout << N.A(m, n) << "\n";
+        std::cout << "A(" << m << ", " << n << ") = " << N.A(m, n) << "\n";
         break;
       case 'B':
-        std::cout << N.B(m) << "\n";
+        std::cout << "B(" << ") = " << N.B(m) << "\n";
         break;
       case 'C':
         std::cout << "Enter \'n\': ";
         std::cin >> n;
-        std::cout << N.C(m, n) << "\n";
+        std::cout << "C(" << m << ", " << n << ") = " << N.C(m, n) << "\n";
         break;
       case 'P':
-        std::cout << N.P(m) << "\n";
+        std::cout << "P(" << m << ") = " << N.P(m) << "\n";
         break;
       case 'U':
         std::cout << "Enter \'n\': ";
         std::cin >> n;
-        std::cout << N.U(m, n) << "\n";
+        std::cout << "U(" << m << ", " << n << ") = " << N.U(m, n) << "\n";
         break;
       case 'S':
         std::cout << "Enter \'n\': ";
         std::cin >> n;
-        std::cout << N.S(m, n) << "\n";
+        std::cout << "S(" << m << ", " << n << ") = " << N.S(m, n) << "\n";
         break;
       default:
         std::cout << c << " is a wrong key\n";
