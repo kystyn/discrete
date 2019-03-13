@@ -61,7 +61,8 @@ myuint32 combNumbers::C( unsigned int m, unsigned int n ) {
     comb.resize(std::min((i + 2) / 2, n + 1)); // i + 2 == (i + 1) + 1
     comb[0] = 1;
     for (unsigned int j = 1, s = (unsigned int)comb.size(); j < s; j++) {
-      comb[j] = prevcomb[j - 1] + prevcomb[j + heavyside(j - (unsigned int)prevcomb.size()) * (i - 1 - j * 2)];     // C(i - 1, j) == C(i - 1, i - 1 - j)
+      comb[j] = prevcomb[j - 1] + prevcomb[j + heavyside(j - (unsigned int)prevcomb.size()) * -1];
+      // C(i - 1, j) == C(i - 1, j + 1) when j == i / 2 and i % 2 ==0
     }
     prevcomb = comb;
   }
