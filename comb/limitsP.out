@@ -9,11 +9,11 @@ for m == 9 all n are valuable
 for m == 10 all n are valuable
 for m == 11 all n are valuable
 for m == 12 all n are valuable
-13 0
-14 0
-15 0
-16 0
-17 0
-18 0
-19 0
-20 0
+P(13, 0)
+P(14, 0)
+P(15, 0)
+P(16, 0)
+P(17, 0)
+P(18, 0)
+P(19, 0)
+P(20, 0)

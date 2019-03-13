@@ -55,7 +55,7 @@ private:
       }
       else {
         std::cout << Type << "(" << m << ", " << n << ")\n";
-        f << m << ' ' << right << "\n";
+        f << Type << "(" << m << ", " << n << ")\n";
       }
     }
   }

@@ -1,8 +1,8 @@
 for m == 2 all n are valuable
 for m == 5 all n are valuable
-13 12
-34 7
-90 5
-239 5
-635 4
-1688 3
+A(13, 11)
+A(34, 6)
+A(90, 4)
+A(239, 4)
+A(635, 3)
+A(1688, 2)
