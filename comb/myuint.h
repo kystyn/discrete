@@ -33,7 +33,7 @@ public:
   }
 
   myuint32 operator*( myuint32 n ) const {
-    if (number == 0)
+    if (number == 0 || n.number == 0)
       return 0;
 
     if (double(MaxInt / n.number) > number)

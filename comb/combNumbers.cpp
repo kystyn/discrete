@@ -57,20 +57,19 @@ myuint32 combNumbers::C( unsigned int m, unsigned int n ) {
   comb[0] = 1;
 
   for (unsigned int i = 1; i <= m; i++) {
-    //comb.resize(std::min((i + 2) / 2, n + 1)); // i + 2 == (i + 1) + 1
     unsigned int
         prevs = std::min((i + 1) / 2, n + 1),
         s = std::min((i + 2) / 2, n + 1);
     myuint32
-        ppl = comb[0],
-        prevleft = comb[0],
+        left = comb[0],
+        whereToWrite = comb[1],
         prevlast = comb[prevs - 1];
     for (unsigned int j = 1; j < s - (i % 2 == 0); j++) {
-      comb[j] += prevleft;
-      prevleft = comb[j];
+      whereToWrite = comb[j];
+      comb[j] = left + whereToWrite;
+      left = whereToWrite;
     }
-    if (i % 2 == 0)
-        comb[s - 1] = prevlast * 2;
+     comb[s - 1] += prevlast * 2 * (i % 2 == 0);
 
       // C(i - 1, j) == C(i - 1, j + 1) when j == i / 2 and i % 2 == 0
       // there are no other cases when j > prevcomb.size()
