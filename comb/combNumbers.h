@@ -5,7 +5,7 @@
 
 class combNumbers {
 private:
-  void genStirling2Table( std::vector<std::vector<myuint32>> &table, unsigned int m, unsigned int n );
+  std::vector<myuint32> genStirlingString( uint m, uint n );
 public:
   myuint32 C( unsigned int m, unsigned int n );
   myuint32 U( unsigned int m, unsigned int n );

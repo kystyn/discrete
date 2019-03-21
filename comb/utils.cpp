@@ -53,6 +53,7 @@ void menu( void ) {
         break;
       default:
         std::cout << c << " is a wrong key\n";
+        std:: cin >> c;
       }
     } catch (const char *str) {
       std::cout << "Exception thrown: " << str << "\n";
