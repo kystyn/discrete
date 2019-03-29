@@ -6,44 +6,44 @@
 #include <cmath>
 #include "combNumbers.h"
 
+std::vector<myuint32> combNumbers::genStirlingString( uint m, uint n ) {
+    std::vector<myuint32> stirling(n + 1, 0);
 
-int heavyside( int x ) {
-  return x >= 0;
-}
+    if (n == 0 && m == 0)
+        return {1};
 
-void combNumbers::genStirling2Table( std::vector<std::vector<myuint32>> &table, unsigned int m, unsigned int n ) {
-  table.resize(m + 1);
+    stirling[0] = 0;
+    for (unsigned int i = 1; i <= m; i++) {
+        if (i < n + 1)
+            stirling[i] = 1;
+        myuint32
+            left = stirling[0],
+            whereToWrite = stirling[0];
 
-  for (unsigned int i = 0; i <= m; i++) {
-    table[i] = std::vector<myuint32>(i + 1);
-    table[i][0] = 0;
-    table[i][i] = 1;
-  }
-  table[0][0] = 0;
+        for (unsigned int j = 1; j <= std::min(i - 1, n); j++) {
+            whereToWrite = stirling[j];
+            stirling[j] = left + stirling[j] * j;
+            left = whereToWrite;
+        }
+    }
 
-  for (unsigned int i = 2; i <= m; i++)
-    for (unsigned int j = 1, s = (unsigned int)table[i].size(); j < s - 1; j++)
-      table[i][j] = table[i - 1][j - 1] + table[i - 1][j] * j;
+    return stirling;
 }
 
 myuint32 combNumbers::B( unsigned int n ) {
-  std::vector<std::vector<myuint32>> stirling;
-  genStirling2Table(stirling, n, n);
+    myuint32 r = 0;
+    auto s = genStirlingString(n, n);
 
-  myuint32 s = 0;
-  for (unsigned int i = 0; i <= n; i++)
-    s += stirling[n][i];
+    for (auto &el : s)
+        r += el;
 
-  return s;
+    return r;
 }
 
 myuint32 combNumbers::S( unsigned int m, unsigned int n ) {
   if (m < n)
     return 0;
-
-  std::vector<std::vector<myuint32>> stirling;
-  genStirling2Table(stirling, m, n);
-  return stirling[m][n];
+  return genStirlingString(m, n).back();
 }
 
 myuint32 combNumbers::C( unsigned int m, unsigned int n ) {
@@ -60,19 +60,18 @@ myuint32 combNumbers::C( unsigned int m, unsigned int n ) {
     unsigned int
         prevs = std::min((i + 1) / 2, n + 1),
         s = std::min((i + 2) / 2, n + 1);
+
     myuint32
         left = comb[0],
-        whereToWrite = comb[1],
+        whereToWrite = comb[0],
         prevlast = comb[prevs - 1];
     for (unsigned int j = 1; j < s - (i % 2 == 0); j++) {
+
       whereToWrite = comb[j];
-      comb[j] = left + whereToWrite;
+      comb[j] += left;
       left = whereToWrite;
     }
-     comb[s - 1] += prevlast * 2 * (i % 2 == 0);
-
-      // C(i - 1, j) == C(i - 1, j + 1) when j == i / 2 and i % 2 == 0
-      // there are no other cases when j > prevcomb.size()
+    comb[s - 1] += prevlast * 2 * (i % 2 == 0);
   }
 
   return comb[n];
@@ -81,7 +80,7 @@ myuint32 combNumbers::C( unsigned int m, unsigned int n ) {
 myuint32 combNumbers::U( unsigned int m, unsigned int n ) {
 
   if (m == 0 && n == 0)
-    throw "U(0, 0) is undefined!";
+    return 1;
 
   int 
     b, t = int(log2(n));

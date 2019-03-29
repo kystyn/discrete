@@ -7,14 +7,14 @@ private:
   friend std::ostream & operator<<( std::ostream &, myuint32 const & );
 
   unsigned int number;
-  const unsigned int MaxInt;
+  static const unsigned int MaxInt;
 
 public:
-  myuint32( void ) : number(0), MaxInt(0xFFFFFFFF) {}
+  myuint32( void ) : number(0) {}
 
-  myuint32( unsigned int number ) : number(number), MaxInt(0xFFFFFFFF) {}
+  myuint32( unsigned int number ) : number(number) {}
 
-  myuint32( myuint32 const &num ) : number(num.number), MaxInt(0xFFFFFFFF) {}
+  myuint32( myuint32 const &num ) : number(num.number) {}
 
   myuint32 & operator=( unsigned int num ) {
     number = num;
@@ -43,7 +43,7 @@ public:
   }
 
   myuint32 & operator*=( myuint32 n ) {
-    if (n.number == 0)
+    if (n.number == 0 || number == 0)
       return *this;
     if (double(MaxInt / n.number) > number)
       number *= n.number;
