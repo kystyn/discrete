@@ -13,7 +13,7 @@ void menu( void ) {
   while (true) {
     std::cout << "A - Placements without repeat\nB - Bell\nC - Combinations\n" <<
       "P - Permutations\nU - Placements with repeat\nS - Stirling\nQ - exit\n";
-    std::cin >> c;
+  std::cin >> c;
 
     if (c == 'Q')
       break;
@@ -53,6 +53,7 @@ void menu( void ) {
         break;
       default:
         std::cout << c << " is a wrong key\n";
+        std:: cin >> c;
       }
     } catch (const char *str) {
       std::cout << "Exception thrown: " << str << "\n";
