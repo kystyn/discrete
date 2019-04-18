@@ -13,15 +13,66 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\BF representation">
+      <UniqueIdentifier>{4171356f-81a4-49e4-b316-641043b63439}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BF representation\PDNF">
+      <UniqueIdentifier>{dd19372c-744c-48ed-af82-c4722f04d714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bool function">
+      <UniqueIdentifier>{72721038-b48e-40cd-bb47-8f81a8731ac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BF representation\RDNF">
+      <UniqueIdentifier>{05eeee5a-fa11-4252-8601-9c2d4d4bbdb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BF representation\Truth table">
+      <UniqueIdentifier>{88fae53c-fbfc-4f35-b978-af40ca7803ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BF representation\PCNF">
+      <UniqueIdentifier>{88bfed95-250d-4285-a516-d453311204d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bool_function.h">
+    <ClInclude Include="perfect_dnf.h">
+      <Filter>Source Files\BF representation\PDNF</Filter>
+    </ClInclude>
+    <ClInclude Include="def.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="base.h">
+      <Filter>Source Files\BF representation</Filter>
+    </ClInclude>
+    <ClInclude Include="truth_table.h">
+      <Filter>Source Files\BF representation\Truth table</Filter>
+    </ClInclude>
+    <ClInclude Include="bool_function.h">
+      <Filter>Source Files\Bool function</Filter>
+    </ClInclude>
+    <ClInclude Include="reduced_dnf.h">
+      <Filter>Source Files\BF representation\RDNF</Filter>
+    </ClInclude>
+    <ClInclude Include="perfect_cnf.h">
+      <Filter>Source Files\BF representation\PCNF</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bool_function.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="perfect_dnf.cpp">
+      <Filter>Source Files\BF representation\PDNF</Filter>
+    </ClCompile>
+    <ClCompile Include="truth_table.cpp">
+      <Filter>Source Files\BF representation\Truth table</Filter>
+    </ClCompile>
+    <ClCompile Include="bool_function.cpp">
+      <Filter>Source Files\Bool function</Filter>
+    </ClCompile>
+    <ClCompile Include="reduced_dnf.cpp">
+      <Filter>Source Files\BF representation\RDNF</Filter>
+    </ClCompile>
+    <ClCompile Include="perfect_cnf.cpp">
+      <Filter>Source Files\BF representation\PCNF</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

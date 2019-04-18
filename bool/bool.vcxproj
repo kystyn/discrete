@@ -110,10 +110,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="base.h" />
     <ClInclude Include="bool_function.h" />
+    <ClInclude Include="def.h" />
+    <ClInclude Include="perfect_cnf.h" />
+    <ClInclude Include="perfect_dnf.h" />
+    <ClInclude Include="reduced_dnf.h" />
+    <ClInclude Include="truth_table.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bool_function.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="perfect_cnf.cpp" />
+    <ClCompile Include="perfect_dnf.cpp" />
+    <ClCompile Include="reduced_dnf.cpp" />
+    <ClCompile Include="truth_table.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
