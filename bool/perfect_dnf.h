@@ -3,11 +3,10 @@
 #include "base.h"
 
 namespace bf_representation {
-class reduced_disjunctuve_normal_form;
 
-class perfect_disjunctive_normal_form : public base {
+class perfect_disjunctuve_normal_form : public base {
 public:
-  perfect_disjunctive_normal_form( std::vector<std::vector<bool>> const &m = {} );
+  perfect_disjunctuve_normal_form( std::vector<std::vector<bool>> const &m = {} );
 
   bool eval(std::vector<bool> const &argument ) const final;
   void output( std::ostream &os ) const final;
@@ -19,34 +18,49 @@ private:
 
   void convertToRDNF( bf_representation::rdnf &b ) const;
 
-  //[0; extractBeg] U [extractEnd; dimension)
+  //[0; extractBeg) U [extractEnd; dimension)
   static bool compare( uint extractBeg, uint extractEnd, 
     std::vector<bool> const &arg1, std::vector<bool> const &arg2 ) {
     if (arg1.size() != arg2.size())
       return false;
     for (uint i = 0; i < arg1.size(); i++)
-      if (i <= extractBeg || extractEnd <= i)
+      if ((extractBeg > i || i >= extractEnd) && (extractBeg + arg1.size() / 2 > i || i >= extractEnd + arg1.size() / 2))
         if (arg1[i] != arg2[i])
           return false;
     return true;
   }
 
-  static bool compareMerge( uint extract, 
-    std::vector<bool> const &arg1, std::vector<bool> const &arg2 ) {
-    if (arg1.size() != arg2.size() + 1 && arg2.size() != arg1.size() + 1) {
-      return false;
+  static uint compareMerge( uint extract, 
+    std::vector<bool> arg1, std::vector<bool> arg2 ) {
+
+    uint res = 0;
+
+    if (arg1.size() != arg2.size())
+      throw "Merge compare: bad args";
+
+    uint arg1c = 0, arg2c = 0;
+
+    for (uint i = 0, n = arg1.size() / 2; i < n; i++) {
+      if (arg1[i] == !arg1[i + n])
+        arg1c++;
+      if (arg2[i] == !arg2[i + n])
+        arg2c++;
     }
 
-    auto tmp = arg1;
-    if (arg2.size() == arg1.size() + 1) {
-      tmp = arg2;
-      tmp.erase(tmp.begin() + extract);
-      return compare(0, 0, arg1, tmp);
+    if (arg1c == arg2c + 1) {
+      arg1.erase(arg1.begin() + extract);
+      arg1.erase(arg1.begin() + arg1.size() / 2  + extract - 1); // -1 because of previous erase
+      res = 1;
     }
+    else if (arg2c == arg1c + 1) {
+      arg2.erase(arg2.begin() + extract);
+      arg2.erase(arg2.begin() + arg1.size() / 2  + extract - 1); // -1 because of previous erase
+      res = 2;
+    }
+    else
+      return res;
 
-    tmp = arg1;
-    tmp.erase(tmp.begin() + extract);
-    return compare(0, 0, arg2, tmp);
+    return res * compare(0, 0, arg1, arg2);
   }
 };
 }

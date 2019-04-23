@@ -5,10 +5,6 @@
 class bool_function;
 
 namespace bf_representation {
-class perfect_conjuctive_normal_form;
-class reduced_disjunctuve_normal_form;
-class perfect_disjunctuve_normal_form;
-class truth_table;
 
 class base {
   friend class ::bool_function;
@@ -43,20 +39,20 @@ public:
     return b;
   }
 
-  static bool bool_pow( bool x, bool y ) { return x && y || !x && !y; }
+  static bool bool_pow( bool x, bool y ) { return x == y; }
 
   // LITTLE-ENDIAN (Least Significant Bit First)
   static std::vector<bool> binaryEncode( uint dec, uint encodedSize = 0 )  {
     std::vector<bool> bin;
-  
+
     do {
       bin.push_back(dec & 1);
       dec >>= 1;
     } while (dec != 0);
-  
+
     while (bin.size() < encodedSize)
       bin.push_back(false);
-  
+
     return bin;
   }
 

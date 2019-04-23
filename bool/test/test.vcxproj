@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{162BDD55-0432-41DB-8C9D-EA5D1C01684B}</ProjectGuid>
-    <RootNamespace>bool</RootNamespace>
+    <ProjectGuid>{585F7D27-17C1-41BC-AFB7-77ECB007BA40}</ProjectGuid>
+    <RootNamespace>test</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,6 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../../../gtest/include;../</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -90,6 +91,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../../../gtest/include;../</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -110,23 +112,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="base.h" />
-    <ClInclude Include="bool_function.h" />
-    <ClInclude Include="def.h" />
-    <ClInclude Include="perfect_cnf.h" />
-    <ClInclude Include="perfect_dnf.h" />
-    <ClInclude Include="reduced_dnf.h" />
-    <ClInclude Include="truth_table.h" />
-    <ClInclude Include="zhegalkin.h" />
+    <ProjectReference Include="..\..\..\gtest\msvc\2010\gtest-md.vcxproj">
+      <Project>{c8f6c172-56f2-4e76-b5fa-c3b423b31be8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\bool.vcxproj">
+      <Project>{162bdd55-0432-41db-8c9d-ea5d1c01684b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bool_function.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="perfect_cnf.cpp" />
-    <ClCompile Include="perfect_dnf.cpp" />
-    <ClCompile Include="reduced_dnf.cpp" />
-    <ClCompile Include="truth_table.cpp" />
-    <ClCompile Include="zhegalkin.cpp" />
+    <ClCompile Include="..\bool_function.cpp" />
+    <ClCompile Include="..\perfect_cnf.cpp" />
+    <ClCompile Include="..\perfect_dnf.cpp" />
+    <ClCompile Include="..\reduced_dnf.cpp" />
+    <ClCompile Include="..\truth_table.cpp" />
+    <ClCompile Include="..\zhegalkin.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

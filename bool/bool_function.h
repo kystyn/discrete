@@ -31,6 +31,7 @@ public:
     class = typename std::enable_if<std::is_base_of<bf_representation::base, T>::value>::type>
   void convert( void ) {
     std::shared_ptr<T> repr(new T);
+    ///std::shared_ptr<base> repr(new T);
     representation->convert(*repr);
     representation = repr;
   }

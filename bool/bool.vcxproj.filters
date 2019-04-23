@@ -31,6 +31,9 @@
     <Filter Include="Source Files\BF representation\PCNF">
       <UniqueIdentifier>{88bfed95-250d-4285-a516-d453311204d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\BF representation\Zhegalkin">
+      <UniqueIdentifier>{7c605000-af5d-48c2-b9e0-4af7ba36fc19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="perfect_dnf.h">
@@ -54,6 +57,9 @@
     <ClInclude Include="perfect_cnf.h">
       <Filter>Source Files\BF representation\PCNF</Filter>
     </ClInclude>
+    <ClInclude Include="zhegalkin.h">
+      <Filter>Source Files\BF representation\Zhegalkin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -73,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="perfect_cnf.cpp">
       <Filter>Source Files\BF representation\PCNF</Filter>
+    </ClCompile>
+    <ClCompile Include="zhegalkin.cpp">
+      <Filter>Source Files\BF representation\Zhegalkin</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

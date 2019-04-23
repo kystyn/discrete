@@ -4,8 +4,6 @@
 
 namespace bf_representation {
 
-class perfect_disjunctive_normal_form;
-
 class truth_table : public base {
 public:
   truth_table( std::vector<bool> const &truthTable = {} );
@@ -15,6 +13,7 @@ public:
 
   void convert( base & ) const;
   void convertToPDNF( pdnf & ) const;
+  void convertToRDNF( rdnf & ) const;
 private:
   std::vector<bool> truthTable;
 };
