@@ -51,41 +51,44 @@ void bf_representation::perfect_disjunctuve_normal_form::convertToRDNF( rdnf &r 
     reducedAnything = false;
 
     for (uint i = 0, n = m.size(); i < n; i++)
-      for (uint j = i + 1; j < n; j++)
-        for (uint position = 0; position < dimension; position++)
-          // convolution w & x | w & ~x == w
-          if (compare(position, position + 1, m[i], m[j]) && // && i != j
-                m[i][position] == !m[j][position] &&              // if position in 'i' is equal to NOT position in 'j'
-                m[i][position] == !m[i][position + dimension] &&  // if position exists in i and j (next str)
-                m[j][position] == !m[j][position + dimension]) {
+      if (reduced.size() < n)
+        for (uint j = i + 1; j < n; j++)
+          for (uint position = 0; position < dimension; position++)
+            // convolution w & x | w & ~x == w
+            if (compare(position, position + 1, m[i], m[j]) && // && i != j
+                  m[i][position] == !m[j][position] &&              // if position in 'i' is equal to NOT position in 'j'
+                  m[i][position] == !m[i][position + dimension] &&  // if position exists in i and j (next str)
+                  m[j][position] == !m[j][position + dimension]) {
 
-            std::vector<bool> comb = m[i];
-            comb[position] = false;
-            comb[position + dimension] = false;
-            m.push_back(comb);
+              std::vector<bool> comb = m[i];
+              comb[position] = false;
+              comb[position + dimension] = false;
+              m.push_back(comb);
 
-            if (std::find(reduced.begin(), reduced.end(), i) == reduced.end())
-              reduced.push_back(i);
+              if (std::find(reduced.begin(), reduced.end(), i) == reduced.end())
+                reduced.push_back(i);
 
-            if (std::find(reduced.begin(), reduced.end(), j) == reduced.end())
-              reduced.push_back(j);
+              if (std::find(reduced.begin(), reduced.end(), j) == reduced.end())
+                reduced.push_back(j);
 
-            reducedAnything = true;
+              reducedAnything = true;
 
-            break; // reduce just by one parameter
-          }
-          // merge w | (w & z) = w
-          /*else if (which = compareMerge(position, m[i], m[j])) {
-            if (which == 1) {
-              m.push_back(m[j]);
-              reduced.push_back(j);
+              break; // reduce just by one parameter
             }
-            else {
-              m.push_back(m[i]);
-              reduced.push_back(i);
+            // merge w | (w & z) = w
+            else if (which = compareMerge(position, m[i], m[j])) {
+              if (which == 1) {
+                m.push_back(m[j]);
+                if (std::find(reduced.begin(), reduced.end(), i) == reduced.end())
+                  reduced.push_back(i);
+              }
+              else {
+                m.push_back(m[i]);
+                if (std::find(reduced.begin(), reduced.end(), j) == reduced.end())
+                  reduced.push_back(j);
+              }
+              reducedAnything = true;
             }
-            reducedAnything = true;
-          }          */
 
 
     std::sort(reduced.begin(), reduced.end());

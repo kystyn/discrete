@@ -18,7 +18,7 @@ bool operator==( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
   return true;
 }
 
-const uint dim = 6;
+const uint dim = 8;
 const std::vector<bool> default_tt(1 << dim, true);
 const bool_function default_bf(std::shared_ptr<truth_table>(new truth_table(default_tt)));
 
@@ -50,7 +50,7 @@ TEST(PDNF, Output) {
   std::cout << bf << std::endl;
 }
 
-TEST(RDNF, TT__RDNF) {
+TEST(RDNF, TT__RDNF_Output) {
   auto bf = default_bf;
 
   std::vector<bool> tt;
@@ -61,11 +61,6 @@ TEST(RDNF, TT__RDNF) {
     tt.push_back(bf(base::binaryEncode(i, dim)));
 
   ASSERT_TRUE(tt == default_tt);
-}
-
-TEST(RDNF, Output) {
-  auto bf = default_bf;
-  bf.convert<reduced_disjunctuve_normal_form>();
   std::cout << bf << std::endl;
 }
 
