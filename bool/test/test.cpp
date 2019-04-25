@@ -20,8 +20,8 @@ bool operator==( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
   return true;
 }
 
-const uint dim = 3;
-const std::vector<bool> default_tt({1, 0, 1, 0, 1, 0, 1, 0});
+const uint dim = 8;
+const std::vector<bool> default_tt(1 << dim, true);
 const bool_function default_bf(std::shared_ptr<truth_table>(new truth_table(default_tt)));
 
 TEST(TT, Eval) {
