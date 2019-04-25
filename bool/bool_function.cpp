@@ -14,3 +14,7 @@ bool bool_function::operator()( std::vector<bool> const &argument ) const {
 void bool_function::output( std::ostream &os ) const {
   representation->output(os);
 }
+
+std::shared_ptr<const bf_representation::base> bool_function::getRepresentation( void ) const {
+  return representation;
+}

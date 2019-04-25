@@ -1,7 +1,10 @@
+#include "truth_table.h"
 #include "reduced_dnf.h"
+#include "perfect_cnf.h"
+#include "zhegalkin.h"
 
-bf_representation::reduced_disjunctuve_normal_form::reduced_disjunctuve_normal_form( std::vector<std::vector<bool>> const &m ) :
-  base(m.size() != 0 ? m[0].size() / 2 : 0, "RDNF"), matrix(m) {
+bf_representation::reduced_disjunctuve_normal_form::reduced_disjunctuve_normal_form( std::vector<std::vector<bool>> const &m, uint dim ) :
+  base(m.size() != 0 ? m[0].size() / 2 : dim, "RDNF"), matrix(m) {
 }
 
 bool bf_representation::reduced_disjunctuve_normal_form::eval(std::vector<bool> const &argument ) const {
@@ -28,5 +31,25 @@ void bf_representation::reduced_disjunctuve_normal_form::output( std::ostream &o
     for (auto x : y)
       std::cout << x << ' ';
     std::cout << std::endl;
+  }
+}
+
+void bf_representation::reduced_disjunctuve_normal_form::convert( base &b ) const {
+  if (b.getSpecificator() == "TT")
+     convertToTruthTable((truth_table &)b);
+  else if (b.getSpecificator() == "PDNF") {
+    truth_table tt;
+    convertToTruthTable(tt);
+    tt.convert((pdnf &)b);
+  }
+  else if (b.getSpecificator() == "PCNF") {
+    truth_table tt;
+    convertToTruthTable(tt);
+    tt.convert((pcnf &)b);
+  }
+  else if (b.getSpecificator() == "Z") {
+    truth_table tt;
+    convertToTruthTable(tt);
+    tt.convert((zhegalkin &)b);
   }
 }

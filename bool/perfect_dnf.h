@@ -6,7 +6,7 @@ namespace bf_representation {
 
 class perfect_disjunctuve_normal_form : public base {
 public:
-  perfect_disjunctuve_normal_form( std::vector<std::vector<bool>> const &m = {} );
+  perfect_disjunctuve_normal_form( std::vector<std::vector<bool>> const &m = {}, uint dim = 0 );
 
   bool eval(std::vector<bool> const &argument ) const final;
   void output( std::ostream &os ) const final;
@@ -17,6 +17,7 @@ private:
   std::vector<std::vector<bool>> matrix;
 
   void convertToRDNF( bf_representation::rdnf &b ) const;
+  void convertToPCNF( bf_representation::pcnf &b ) const;
 
   //[0; extractBeg) U [extractEnd; dimension)
   static bool compare( uint extractBeg, uint extractEnd, 

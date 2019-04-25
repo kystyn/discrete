@@ -35,6 +35,8 @@ public:
     representation->convert(*repr);
     representation = repr;
   }
+
+  std::shared_ptr<const bf_representation::base> getRepresentation( void ) const;
 };
 
 std::ostream & operator<<( std::ostream &os, bool_function const &bf );

@@ -34,6 +34,9 @@
     <Filter Include="Source Files\BF representation\Zhegalkin">
       <UniqueIdentifier>{7c605000-af5d-48c2-b9e0-4af7ba36fc19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\BF representation\Base">
+      <UniqueIdentifier>{22daf88d-a9f0-473c-a4a7-77eeebaf86e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="perfect_dnf.h">
@@ -41,9 +44,6 @@
     </ClInclude>
     <ClInclude Include="def.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="base.h">
-      <Filter>Source Files\BF representation</Filter>
     </ClInclude>
     <ClInclude Include="truth_table.h">
       <Filter>Source Files\BF representation\Truth table</Filter>
@@ -59,6 +59,9 @@
     </ClInclude>
     <ClInclude Include="zhegalkin.h">
       <Filter>Source Files\BF representation\Zhegalkin</Filter>
+    </ClInclude>
+    <ClInclude Include="base.h">
+      <Filter>Source Files\BF representation\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="zhegalkin.cpp">
       <Filter>Source Files\BF representation\Zhegalkin</Filter>
+    </ClCompile>
+    <ClCompile Include="base.cpp">
+      <Filter>Source Files\BF representation\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

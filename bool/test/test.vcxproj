@@ -120,6 +120,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\base.cpp" />
     <ClCompile Include="..\bool_function.cpp" />
     <ClCompile Include="..\perfect_cnf.cpp" />
     <ClCompile Include="..\perfect_dnf.cpp" />

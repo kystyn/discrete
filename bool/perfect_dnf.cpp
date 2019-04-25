@@ -1,11 +1,14 @@
 #include <algorithm>
 #include "base.h"
+#include "truth_table.h"
 #include "perfect_dnf.h"
 #include "reduced_dnf.h"
+#include "perfect_cnf.h"
+#include "zhegalkin.h"
 
 /*** Perfect disjunctive normal form ***/
-bf_representation::perfect_disjunctuve_normal_form::perfect_disjunctuve_normal_form( std::vector<std::vector<bool>> const &m ) : 
-    base(m.size() != 0 ? m[0].size() : 0, "PDNF"), matrix(m) {}
+bf_representation::perfect_disjunctuve_normal_form::perfect_disjunctuve_normal_form( std::vector<std::vector<bool>> const &m, uint dim ) : 
+    base(m.size() != 0 ? m[0].size() : dim, "PDNF"), matrix(m) {}
 
 bool bf_representation::perfect_disjunctuve_normal_form::eval(std::vector<bool> const &argument ) const {
   bool res = false;
@@ -98,19 +101,36 @@ void bf_representation::perfect_disjunctuve_normal_form::convertToRDNF( rdnf &r 
 
     // remove same strings
     std::vector<std::vector<bool>>::iterator it;
-    for (uint i = 0; i < m.size() - 1; i++)
-      for (uint j = i + 1; j < m.size();)
+    for (int i = 0, n = m.size() - 1; i < n; i++)
+      for (int j = i + 1; j < m.size();)
         if ((it = std::find(m.begin() + j, m.end(), m[i])) != m.end())
           m.erase(it);
         else
           j++;
   } while (reducedAnything);
 
-  r = m;
+  r = rdnf(m, dimension);
+}
+
+void bf_representation::perfect_disjunctuve_normal_form::convertToPCNF( bf_representation::pcnf &b ) const {
+  /*auto m = matrix;
+  for (auto &y : m)
+    for (auto &x : y)
+      x = !x;                 */
+
+  b = pcnf(matrix, dimension);
 }
 
 void bf_representation::perfect_disjunctuve_normal_form::convert( base &b ) const {
-  if (b.getSpecificator() == "RDNF") {
+  if (b.getSpecificator() == "RDNF")
     convertToRDNF((rdnf &)b);
+  else if (b.getSpecificator() == "TT")
+     convertToTruthTable((truth_table &)b);
+  else if (b.getSpecificator() == "Z") {
+     truth_table t;
+     convertToTruthTable(t);
+     t.convert((zhegalkin &)b);
   }
+  else if (b.getSpecificator() == "PCNF")
+    convertToPCNF((pcnf &)b);
 }
