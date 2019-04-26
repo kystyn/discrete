@@ -37,6 +37,9 @@
     <Filter Include="Source Files\BF representation\Base">
       <UniqueIdentifier>{22daf88d-a9f0-473c-a4a7-77eeebaf86e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\BF representation\Carnaugh  map">
+      <UniqueIdentifier>{dce0b4b8-910d-4de2-8f7e-00376fed98b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="perfect_dnf.h">
@@ -63,6 +66,9 @@
     <ClInclude Include="base.h">
       <Filter>Source Files\BF representation\Base</Filter>
     </ClInclude>
+    <ClInclude Include="carnaugh_map.h">
+      <Filter>Source Files\BF representation\Carnaugh  map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="base.cpp">
       <Filter>Source Files\BF representation\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="carnaugh_map.cpp">
+      <Filter>Source Files\BF representation\Carnaugh  map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

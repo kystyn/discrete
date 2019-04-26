@@ -36,8 +36,8 @@ void bf_representation::perfect_conjunctuve_normal_form::convertToPDNF( pdnf &p 
 void bf_representation::perfect_conjunctuve_normal_form::output( std::ostream &os ) const {
   for (auto y : matrix) {
     for (auto x : y)
-      std::cout << x << ' ';
-    std::cout << "\n";
+      os << x << ' ';
+    os << "\n";
   }
 }
 

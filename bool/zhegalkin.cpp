@@ -51,6 +51,6 @@ void bf_representation::zhegalkin::convert( base &b ) const {
 
 void bf_representation::zhegalkin::output( std::ostream &os ) const {
   for (auto x : coefficients)
-    std::cout << x << ' ';
-  std::cout << std::endl;
+    os << x << ' ';
+  os << std::endl;
 }

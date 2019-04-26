@@ -29,8 +29,8 @@ bool bf_representation::reduced_disjunctuve_normal_form::eval(std::vector<bool> 
 void bf_representation::reduced_disjunctuve_normal_form::output( std::ostream &os ) const {
   for (auto y : matrix) {
     for (auto x : y)
-      std::cout << x << ' ';
-    std::cout << std::endl;
+      os << x << ' ';
+    os << std::endl;
   }
 }
 

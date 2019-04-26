@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClInclude Include="base.h" />
     <ClInclude Include="bool_function.h" />
+    <ClInclude Include="carnaugh_map.h" />
     <ClInclude Include="def.h" />
     <ClInclude Include="perfect_cnf.h" />
     <ClInclude Include="perfect_dnf.h" />
@@ -122,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="base.cpp" />
     <ClCompile Include="bool_function.cpp" />
+    <ClCompile Include="carnaugh_map.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="perfect_cnf.cpp" />
     <ClCompile Include="perfect_dnf.cpp" />
