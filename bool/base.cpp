@@ -18,15 +18,6 @@ uint bf_representation::base::grayEncode( uint binary ) {
   return binary ^ (binary >> 1);
 }
 
-uint bf_representation::base::grayDecode( uint gray ) {
-  uint b;
-
-  for (b = 0; gray != 0; gray >>= 1)
-    b ^= gray;
-
-  return b;
-}
-
 bool bf_representation::base::bool_pow( bool x, bool y ) {
   return x == y;
 }
@@ -59,7 +50,7 @@ uint bf_representation::base::binaryDecode( std::vector<bool> const &bin ) {
   uint dec = 0;
 
   for (uint i = 0; i < bin.size(); i++)
-    dec += bin[i] * (1 << i);
+    dec ^= (bin[i] << i);
 
   return dec;
 }
