@@ -5,6 +5,7 @@
 #include "reduced_dnf.h"
 #include "perfect_cnf.h"
 #include "zhegalkin.h"
+#include "carnaugh_map.h"
 
 /*** Perfect disjunctive normal form ***/
 bf_representation::perfect_disjunctuve_normal_form::perfect_disjunctuve_normal_form( std::vector<std::vector<bool>> const &m, uint dim ) : 
@@ -131,6 +132,31 @@ void bf_representation::perfect_disjunctuve_normal_form::convert( base &b ) cons
      convertToTruthTable(t);
      t.convert((zhegalkin &)b);
   }
+  else if (b.getSpecificator() == "C")
+    convertToCarnaughMap((carnaugh_map &)b);
   else if (b.getSpecificator() == "PCNF")
     convertToPCNF((pcnf &)b);
+}
+
+void bf_representation::perfect_disjunctuve_normal_form::convertToCarnaughMap( carnaugh_map &cMap ) const {
+  std::vector<std::vector<bool>> map(1 << (dimension / 2));
+
+  for (auto &x : map)
+    x = std::vector<bool>(1 << ((dimension + 1) / 2), false);
+
+  for (auto &x : map) {
+    std::vector<bool>
+      argX(1 << ((dimension + 1) / 2)),
+      argY(1 << (dimension / 2));
+
+    for (uint i = 0; i < 1 << ((dimension + 1) / 2); i++)
+      argX[i] = x[i + (1 << (dimension / 2))];
+
+    for (uint i = 0; i < 1 << (dimension / 2); i++)
+      argY[i]=x[i];
+
+    map[base::grayEncode(base::binaryDecode(argY))][base::grayEncode(base::binaryDecode(argX))] = true;
+  }
+
+  cMap = map;
 }

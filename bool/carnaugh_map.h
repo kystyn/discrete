@@ -13,7 +13,25 @@ namespace bf_representation {
   private:
     std::vector<std::vector<bool>> map;
 
-    void convertToPDNF( pdnf & ) const;
-    void convertToRDNF( rdnf & ) const;
+    template<class T, class = 
+      typename std::enable_if<std::is_same<T, pdnf>::value || std::is_same<T, pcnf>::value>::type>
+    void convertToPerfectNF( T & ) const {
+      std::vector<std::vector<bool>> matrix;
+     
+      for (uint y = 0; y < (1 << (dimension / 2)); y++)
+        for (uint x = 0; x < (1 << (dimension + 1) / 2); x++)
+          if (map[y][x]) {
+            auto
+              binX = base::binaryEncode(base::grayEncode(x)),
+              binY = base::binaryEncode(base::grayEncode(y));
+     
+            for (auto x : binX)
+              binY.push_back(x);
+     
+            matrix.push_back(binX);
+          }
+     
+      p = T(std::move(matrix), dimension);
+    }
   };
 }

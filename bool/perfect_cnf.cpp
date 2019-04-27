@@ -3,6 +3,7 @@
 #include "perfect_dnf.h"
 #include "reduced_dnf.h"
 #include "zhegalkin.h"
+#include "carnaugh_map.h"
 
 bf_representation::perfect_conjunctuve_normal_form::perfect_conjunctuve_normal_form( std::vector<std::vector<bool>> const &m, uint dim ) :
   base(m.size() != 0 ? m[0].size() : dim, "PCNF"), matrix(m) {}
@@ -22,15 +23,12 @@ void bf_representation::perfect_conjunctuve_normal_form::convert( base &b ) cons
     convertToTruthTable(t);
     t.convert((zhegalkin &)b);
   }
+  else if (b.getSpecificator() == "C")
+    convertToCarnaughMap((carnaugh_map &)b);
 }
 
 void bf_representation::perfect_conjunctuve_normal_form::convertToPDNF( pdnf &p ) const {
-  /*auto m = matrix;
-  for (auto &y : m)
-    for (auto &x : y)
-      x = !x;
-        */
-  p = pdnf(matrix, dimension);
+  p = pdnf(std::move(matrix), dimension);
 }
 
 void bf_representation::perfect_conjunctuve_normal_form::output( std::ostream &os ) const {
@@ -57,4 +55,27 @@ bool bf_representation::perfect_conjunctuve_normal_form::eval(std::vector<bool> 
   }
 
   return !res;
+}
+
+void bf_representation::perfect_conjunctuve_normal_form::convertToCarnaughMap( carnaugh_map &cMap ) const {
+  std::vector<std::vector<bool>> map(1 << (dimension / 2));
+
+  for (auto &x : map)
+    x = std::vector<bool>(1 << ((dimension + 1) / 2), true);
+
+  for (auto &x : map) {
+    std::vector<bool>
+      argX(1 << ((dimension + 1) / 2)),
+      argY(1 << (dimension / 2));
+
+    for (uint i = 0; i < 1 << ((dimension + 1) / 2); i++)
+      argX[i] = x[i + (1 << (dimension / 2))];
+
+    for (uint i = 0; i < 1 << (dimension / 2); i++)
+      argY[i]=x[i];
+
+    map[base::grayEncode(base::binaryDecode(argY))][base::grayEncode(base::binaryDecode(argX))] = false;
+  }
+
+  cMap = map;
 }

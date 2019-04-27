@@ -12,6 +12,7 @@ public:
 private:
   std::vector<std::vector<bool>> matrix;
 
-  void convertToPDNF( pdnf &p ) const;
+  void convertToPDNF( pdnf & ) const;
+  void convertToCarnaughMap( carnaugh_map & ) const;
 };
 }

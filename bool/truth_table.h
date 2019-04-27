@@ -21,6 +21,7 @@ private:
   void convertToPCNF( pcnf & ) const;
   void convertToRDNF( rdnf & ) const;
   void convertToZhegalkin( zhegalkin & ) const;
+  void convertToCarnaughMap( carnaugh_map & ) const;
 };
 
 }

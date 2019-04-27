@@ -3,6 +3,7 @@
 #include "reduced_dnf.h"
 #include "perfect_cnf.h"
 #include "zhegalkin.h"
+#include "carnaugh_map.h"
 
 bf_representation::truth_table::truth_table( std::vector<bool> const &truthTable ) :
   base(truthTable.size() != 0 ? (uint)log2(truthTable.size()) : 0, "TT"), truthTable(truthTable) {
@@ -31,6 +32,8 @@ void bf_representation::truth_table::convert( bf_representation::base &b ) const
     convertToPCNF((pcnf &)b);
   else if (b.getSpecificator() == "Z")
     convertToZhegalkin((zhegalkin &)b);
+  else if (b.getSpecificator() == "C")
+    convertToCarnaughMap((carnaugh_map &)b);
 }
 
 void bf_representation::truth_table::convertToPDNF( pdnf &p ) const {
@@ -79,6 +82,26 @@ void bf_representation::truth_table::convertToPCNF( pcnf &p ) const {
   }
 
   p = pcnf(m, dimension);
+}
+
+void bf_representation::truth_table::convertToCarnaughMap( carnaugh_map &cMap ) const {
+  std::vector<std::vector<bool>> matrix(1 << (dimension / 2));
+
+  for (auto &x : matrix)
+    x.resize(1 << ((dimension + 1) / 2));
+
+  for (uint y = 0, n = matrix.size(); y < n; y++)
+    for (uint x = 0, m = matrix[0].size(); x < m; x++) {
+      auto
+          binX = base::binaryEncode(base::grayEncode(x)),
+          binY = base::binaryEncode(base::grayEncode(y));
+
+      for (auto x : binX)
+        binY.push_back(x);
+
+      matrix[y][x] = truthTable[base::binaryDecode(binX)];
+    }
+  cMap = matrix;
 }
 
 std::vector<bool> const & bf_representation::truth_table::getTable( void ) const {

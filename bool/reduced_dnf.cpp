@@ -2,6 +2,7 @@
 #include "reduced_dnf.h"
 #include "perfect_cnf.h"
 #include "zhegalkin.h"
+#include "carnaugh_map.h"
 
 bf_representation::reduced_disjunctuve_normal_form::reduced_disjunctuve_normal_form( std::vector<std::vector<bool>> const &m, uint dim ) :
   base(m.size() != 0 ? m[0].size() / 2 : dim, "RDNF"), matrix(m) {
@@ -51,5 +52,10 @@ void bf_representation::reduced_disjunctuve_normal_form::convert( base &b ) cons
     truth_table tt;
     convertToTruthTable(tt);
     tt.convert((zhegalkin &)b);
+  }
+  else if (b.getSpecificator() == "C") {
+    truth_table tt;
+    convertToTruthTable(tt);
+    tt.convert((carnaugh_map &)b);
   }
 }

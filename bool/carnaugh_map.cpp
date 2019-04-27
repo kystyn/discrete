@@ -6,10 +6,10 @@ bf_representation::carnaugh_map::carnaugh_map( std::vector<std::vector<bool>> co
   base(m.size() == 0 ? 0 : (uint)log2(m.size() * m[0].size()), "C"), map(m) {}
 
 bool bf_representation::carnaugh_map::eval( std::vector<bool> const &arg ) const {
-  std::vector<bool> argX((dimension + 1) / 2);
+  std::vector<bool> argX(dimension / 2);
 
-  for (uint i = 0; i < (dimension + 1) / 2; i++)
-    argX[i] = false;
+  for (uint i = 0; i < dimension/ 2; i++)
+    argX[i] = arg[dimension - 1 - i];
 
   uint
     x = base::grayEncode(base::binaryDecode(argX)),
@@ -30,36 +30,12 @@ void bf_representation::carnaugh_map::convert( bf_representation::base &b ) cons
   if (b.getSpecificator() == "TT")
     convertToTruthTable((truth_table &)b);
   else if (b.getSpecificator() == "PDNF")
-    convertToPDNF((pdnf &)b);
-  else if (b.getSpecificator() == "RDNF")
-    convertToPDNF((pdnf &)b);
-}
-
-void bf_representation::carnaugh_map::convertToPDNF( pdnf &p ) const {
-  std::vector<std::vector<bool>> matrix;
-
-  for (uint y = 0; y < (1 << ((dimension + 1) / 2)); y++)
-    for (uint x = 0; x < (1 << (dimension / 2)); x++)
-      if (map[y][x]) {
-        auto
-          binX = base::binaryEncode(base::grayEncode(x)),
-          binY = base::binaryEncode(base::grayEncode(y));
-
-        for (auto y : binY)
-          binX.push_back(y);
-
-        matrix.push_back(binX);
-      }
-
-  p = pdnf(matrix, dimension);
-}
-
-void bf_representation::carnaugh_map::convertToRDNF( rdnf &p ) const {
-  std::vector<std::vector<bool>> matrix;
-
-  // horizontal loop
-  for (uint y = 1; y < (1 << ((dimension + 1) / 2)); y++)
-    for (uint x = 1; x < (1 << (dimension / 2)); x++) {
-
-    }
+    convertToPerfectNF<pdnf>((pdnf &)b);
+  else if (b.getSpecificator() == "PCNF")
+    convertToPerfectNF<pcnf>((pcnf &)b);
+  else if (b.getSpecificator() == "RDNF") {
+    pdnf p;
+    convertToPerfectNF<pdnf>(p);
+    p.convert((rdnf &)b);
+  }
 }

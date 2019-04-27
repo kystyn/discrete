@@ -18,6 +18,7 @@ private:
 
   void convertToRDNF( bf_representation::rdnf &b ) const;
   void convertToPCNF( bf_representation::pcnf &b ) const;
+  void convertToCarnaughMap( carnaugh_map & ) const;
 
   //[0; extractBeg) U [extractEnd; dimension)
   static bool compare( uint extractBeg, uint extractEnd, 

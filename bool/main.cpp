@@ -8,7 +8,7 @@ using namespace bf_representation;
 
 int main( void ) {
   try {
-    bool_function bf(std::shared_ptr<truth_table>(new truth_table({0, 1, 1, 1, 1, 0, 0, 1})));
+    bool_function bf(std::shared_ptr<truth_table>(new truth_table({0, 1, 1, 1})));
 
   } catch (char const *str) {
     std::cerr << "exception thrown: " << str << std::endl;
