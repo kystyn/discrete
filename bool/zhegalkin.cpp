@@ -3,6 +3,7 @@
 #include "perfect_dnf.h"
 #include "reduced_dnf.h"
 #include "zhegalkin.h"
+#include "carnaugh_map.h"
 
 bf_representation::zhegalkin::zhegalkin( std::vector<bool> const &coefficients ) :
   base(coefficients.size() == 0 ? 0 : (uint)log2(coefficients.size()), "Z"),
@@ -47,10 +48,13 @@ void bf_representation::zhegalkin::convert( base &b ) const {
     convertToTruthTable(t);
     t.convert((pcnf &)b);
   }
+  else if (b.getSpecificator() == "C") {
+    truth_table t;
+    convertToTruthTable(t);
+    t.convert((carnaugh_map &)b);
+  }
 }
 
 void bf_representation::zhegalkin::output( std::ostream &os ) const {
-  for (auto x : coefficients)
-    os << x << ' ';
-  os << std::endl;
+  os << coefficients;
 }

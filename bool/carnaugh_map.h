@@ -2,10 +2,13 @@
 
 #include "base.h"
 
+#include "perfect_cnf.h"
+#include "perfect_dnf.h"
+
 namespace bf_representation {
   class carnaugh_map : public base {
   public:
-    carnaugh_map( std::vector<std::vector<bool>> const &m );
+    carnaugh_map( std::vector<std::vector<bool>> const &m = {}, uint dim = 0 );
 
     bool eval( std::vector<bool> const &arg ) const;
     void output( std::ostream &os ) const;
@@ -15,7 +18,7 @@ namespace bf_representation {
 
     template<class T, class = 
       typename std::enable_if<std::is_same<T, pdnf>::value || std::is_same<T, pcnf>::value>::type>
-    void convertToPerfectNF( T & ) const {
+    void convertToPerfectNF( T &p ) const {
       std::vector<std::vector<bool>> matrix;
      
       for (uint y = 0; y < (1 << (dimension / 2)); y++)
@@ -30,8 +33,8 @@ namespace bf_representation {
      
             matrix.push_back(binX);
           }
-     
-      p = T(std::move(matrix), dimension);
+
+      p = T(matrix, dimension);
     }
   };
 }

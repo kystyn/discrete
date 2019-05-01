@@ -28,15 +28,11 @@ void bf_representation::perfect_conjunctuve_normal_form::convert( base &b ) cons
 }
 
 void bf_representation::perfect_conjunctuve_normal_form::convertToPDNF( pdnf &p ) const {
-  p = pdnf(std::move(matrix), dimension);
+  p = pdnf(matrix, dimension);
 }
 
 void bf_representation::perfect_conjunctuve_normal_form::output( std::ostream &os ) const {
-  for (auto y : matrix) {
-    for (auto x : y)
-      os << x << ' ';
-    os << "\n";
-  }
+  os << matrix;
 }
 
 bool bf_representation::perfect_conjunctuve_normal_form::eval(std::vector<bool> const &argument ) const {
@@ -61,21 +57,21 @@ void bf_representation::perfect_conjunctuve_normal_form::convertToCarnaughMap( c
   std::vector<std::vector<bool>> map(1 << (dimension / 2));
 
   for (auto &x : map)
-    x = std::vector<bool>(1 << ((dimension + 1) / 2), true);
+    x = std::vector<bool>(1 << ((dimension + 1) / 2), false);
 
-  for (auto &x : map) {
+  for (auto &x : matrix) {
     std::vector<bool>
-      argX(1 << ((dimension + 1) / 2)),
-      argY(1 << (dimension / 2));
+      argX((dimension + 1) / 2),
+      argY(dimension / 2);
 
-    for (uint i = 0; i < 1 << ((dimension + 1) / 2); i++)
-      argX[i] = x[i + (1 << (dimension / 2))];
+    for (uint i = 0; i < (dimension + 1) / 2; i++)
+      argX[i] = x[i + dimension / 2];
 
-    for (uint i = 0; i < 1 << (dimension / 2); i++)
-      argY[i]=x[i];
+    for (uint i = 0; i < dimension / 2; i++)
+      argY[i] = x[i];
 
-    map[base::grayEncode(base::binaryDecode(argY))][base::grayEncode(base::binaryDecode(argX))] = false;
+    map[base::grayEncode(base::binaryDecode(argY))][base::grayEncode(base::binaryDecode(argX))] = true;
   }
 
-  cMap = map;
+  cMap = carnaugh_map(map, dimension);
 }

@@ -12,9 +12,7 @@ bf_representation::truth_table::truth_table( std::vector<bool> const &truthTable
 }
 
 void bf_representation::truth_table::output( std::ostream &os ) const {
-  for (auto i : truthTable)
-    os << i << ' ';
-  os << std::endl;
+  os << truthTable;
 }
 
 bool bf_representation::truth_table::eval(std::vector<bool> const &argument ) const {
@@ -39,9 +37,13 @@ void bf_representation::truth_table::convert( bf_representation::base &b ) const
 void bf_representation::truth_table::convertToPDNF( pdnf &p ) const {
   std::vector<std::vector<bool>> m;
 
+  m.reserve(1 << dimension);
+
   for (uint i = 0; i < (1 << dimension); i++)
     if (truthTable[i])
       m.push_back(base::binaryEncode(i, dimension));
+
+  m.shrink_to_fit();
 
   p = pdnf(m, dimension);
 }
@@ -99,9 +101,9 @@ void bf_representation::truth_table::convertToCarnaughMap( carnaugh_map &cMap ) 
       for (auto x : binX)
         binY.push_back(x);
 
-      matrix[y][x] = truthTable[base::binaryDecode(binX)];
+      matrix[y][x] = truthTable[base::binaryDecode(binY)];
     }
-  cMap = matrix;
+  cMap = carnaugh_map(matrix, dimension);
 }
 
 std::vector<bool> const & bf_representation::truth_table::getTable( void ) const {

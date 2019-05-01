@@ -31,4 +31,7 @@ public:
   static void genNextBinary(std::vector<bool> &bin );
   static uint binaryDecode( std::vector<bool> const &bin );
 };
+
+std::ostream & operator<<( std::ostream &os, std::vector<std::vector<bool>> const &v );
+std::ostream & operator<<( std::ostream &os, std::vector<bool> const &v );
 }

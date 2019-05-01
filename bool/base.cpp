@@ -1,7 +1,7 @@
 #include "base.h"
 #include "truth_table.h"
 
-void bf_representation::base:: convertToTruthTable( bf_representation::truth_table &b ) const {
+void bf_representation::base::convertToTruthTable( bf_representation::truth_table &b ) const {
   std::vector<bool> tt(1 << dimension);
 
   for (uint i = 0; i < (1 << dimension); i++)
@@ -53,5 +53,23 @@ uint bf_representation::base::binaryDecode( std::vector<bool> const &bin ) {
     dec ^= (bin[i] << i);
 
   return dec;
+}
+
+std::ostream & bf_representation::operator<<( std::ostream &os, std::vector<std::vector<bool>> const &v ) {
+  for (auto y : v) {
+    for (auto x : y)
+      std::cout << x << ' ';
+    std::cout << '\n';
+  }
+
+  return os;
+}
+
+std::ostream & bf_representation::operator<<( std::ostream &os, std::vector<bool> const &v ) {
+  for (auto x : v)
+    std::cout << x << ' ';
+  std::cout << std::endl;
+
+  return os;
 }
 

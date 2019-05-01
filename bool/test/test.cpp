@@ -6,6 +6,7 @@
 #include "reduced_dnf.h"
 #include "truth_table.h"
 #include "zhegalkin.h"
+#include "carnaugh_map.h"
 
 using namespace bf_representation;
 
@@ -22,6 +23,7 @@ bool operator==( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
 
 const uint dim = 8;
 const std::vector<bool> default_tt(1 << dim, true);
+//const std::vector<bool> default_tt({1, 0, 0, 1, 1, 1, 0, 1});
 const bool_function default_bf(std::shared_ptr<truth_table>(new truth_table(default_tt)));
 
 TEST(TT, Eval) {
@@ -77,11 +79,35 @@ TEST(PDNF, PDNF__PCNF) {
   ASSERT_TRUE(((const truth_table *)ptr)->getTable() == default_tt);
 }
 
+TEST(PDNF, PDNF_Carnaugh) {
+  auto bf = default_bf;
+
+  bf.convert<perfect_disjunctuve_normal_form>();
+  bf.convert<carnaugh_map>();
+  bf.convert<truth_table>();
+
+  auto ptr = bf.getRepresentation().get();
+
+  ASSERT_TRUE(((const truth_table *)ptr)->getTable() == default_tt);
+}
+
 TEST(PCNF, PCNF__PDNF) {
   auto bf = default_bf;
 
   bf.convert<perfect_conjunctuve_normal_form>();
   bf.convert<perfect_disjunctuve_normal_form>();
+  bf.convert<truth_table>();
+
+  auto ptr = bf.getRepresentation().get();
+
+  ASSERT_TRUE(((const truth_table *)ptr)->getTable() == default_tt);
+}
+
+TEST(PCNF, PCNF_Carnaugh) {
+  auto bf = default_bf;
+
+  bf.convert<perfect_conjunctuve_normal_form>();
+  bf.convert<carnaugh_map>();
   bf.convert<truth_table>();
 
   auto ptr = bf.getRepresentation().get();
@@ -107,6 +133,29 @@ TEST(TT, TT__Zhegalkin) {
 
   ASSERT_TRUE(((const truth_table *)ptr)->getTable() == default_tt);
 }
+
+TEST(TT, TT_Carnaugh) {
+  bool_function bf = default_bf;
+  bf.convert<carnaugh_map>();
+  bf.convert<truth_table>();
+
+  auto ptr = bf.getRepresentation().get();
+
+  ASSERT_TRUE(((const truth_table *)ptr)->getTable() == default_tt);
+}
+
+TEST(Zhegalkin, Zhegalkin_Carnaugh) {
+  bool_function bf = default_bf;
+  bf.convert<zhegalkin>();
+  bf.convert<carnaugh_map>();
+  bf.convert<zhegalkin>();
+  bf.convert<truth_table>();
+
+  auto ptr = bf.getRepresentation().get();
+
+  ASSERT_TRUE(((const truth_table *)ptr)->getTable() == default_tt);
+}
+
 
 int main( int argc, char *argv[] ) {
   testing::InitGoogleTest(&argc, argv);
