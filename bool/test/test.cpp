@@ -21,9 +21,16 @@ bool operator==( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
   return true;
 }
 
-const uint dim = 5;
-//const std::vector<bool> default_tt(1 << dim, true);
-const std::vector<bool> default_tt({1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1});
+const uint dim = 4;
+const std::vector<bool> default_tt(1 << dim, true);
+/*const std::vector<bool> default_tt({1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
+  1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
+  1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
+  1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
+  1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
+  1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
+  1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
+  1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1});*/
 const bool_function default_bf(std::shared_ptr<truth_table>(new truth_table(default_tt)));
 
 TEST(TT, Eval) {
@@ -157,6 +164,30 @@ TEST(Zhegalkin, Zhegalkin_Carnaugh) {
   auto ptr = bf.getRepresentation().get();
 
   ASSERT_TRUE(((const truth_table *)ptr)->getTable() == default_tt);
+}
+
+TEST(Gray, codes_full) {
+  uint count = 4;
+  auto prev = base::binaryEncode(base::grayEncode(0), count);
+  for (uint i = 1; i < (1 << count); i++) {
+    auto cur = base::binaryEncode(base::grayEncode(i), count);
+    uint dist = 0;
+
+    for (uint k = 0; k < count; k++)
+      dist += cur[k] & !prev[k] | !cur[k] & prev[k];
+    ASSERT_EQ(dist, 1);
+    prev = cur;
+  }
+}
+
+TEST(BoolMultiply, 1) {
+  ASSERT_TRUE(base::binaryDecode(base::binaryEncode(3) * base::binaryEncode(7)) == 3 * 7);
+  uint n = 128;
+
+  for (uint i = 0; i <= n; i++)
+    for (uint j = i; j <= n; j++) {
+      ASSERT_TRUE(base::binaryDecode(base::binaryEncode(i) * base::binaryEncode(j)) == i * j);
+    }
 }
 
 int main( int argc, char *argv[] ) {

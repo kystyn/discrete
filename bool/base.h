@@ -36,4 +36,6 @@ public:
 std::istream & operator>>( std::istream &is, std::vector<bool> &v );
 std::ostream & operator<<( std::ostream &os, std::vector<std::vector<bool>> const &v );
 std::ostream & operator<<( std::ostream &os, std::vector<bool> const &v );
+std::vector<bool> operator*( std::vector<bool> const &v1, std::vector<bool> const &v2 );
+std::vector<bool> operator*( std::vector<bool> const &v1, bool v2 );
 }

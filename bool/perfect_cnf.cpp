@@ -50,7 +50,7 @@ void bf_representation::perfect_conjunctuve_normal_form::output( std::ostream &o
     os << ' ';
     for (uint j = 0; j < dimension - 1; j++)
       os << (!matrix[i][j] ? "x" : "!x") << j << " V ";
-    os << (!matrix[i][dimension - 1] ? "x" : "!x");
+    os << (!matrix[i][dimension - 1] ? "x" : "!x") << dimension - 1;
 
     if (i != n - 1)
       os << "\n&\n";

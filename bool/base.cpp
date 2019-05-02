@@ -90,3 +90,36 @@ std::istream & bf_representation::operator>>( std::istream &is, std::vector<bool
   return is;
 }
 
+std::vector<bool> bf_representation::operator*( std::vector<bool> const &v1, bool v2 ){
+  auto v = v1;
+  for (auto &x : v)
+    x = x & v2;
+
+  return v;
+}
+
+std::vector<bool> bf_representation::operator*( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
+  std::vector<bool> arg1 = v1.size() > v2.size() ? v1 : v2, arg2 = v1.size() > v2.size() ? v2 : v1;
+  std::vector<bool> res = arg1 * arg2[0];
+
+  for (uint i = 1; i < arg2.size(); i++) {
+    if (arg2[i]) {
+      for (uint k = 0, n = res.size(); k < i + arg1.size() - n; k++)
+        res.push_back(false);
+
+      bool add = false;
+      for (uint k = i; k < i + arg1.size(); k++) {
+        bool prev = res[k];
+        res[k] = res[k] ^ arg1[k - i] ^ add;
+        add =
+          (prev & add) |
+          (prev & arg1[k - i]) |
+          (arg1[k - i] & add);
+      }
+      if (add)
+        res.push_back(true);
+    }
+  }
+  return res;
+}
+

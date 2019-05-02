@@ -9,6 +9,7 @@ std::ostream & operator<<( std::ostream &os, bool_function const &bf ) {
 
 std::istream & operator>>( std::istream &is, bool_function &bf ) {
   bf.input(is);
+  return is;
 }
 
 bool bool_function::operator()( std::vector<bool> const &argument ) const {

@@ -47,7 +47,8 @@ void bf_representation::reduced_disjunctuve_normal_form::output( std::ostream &o
     for (uint j = 0; j < dimension - 1; j++)
       if (matrix[i][j] ^ matrix[i][j + dimension])
         os << (matrix[i][j] ? "x" : "!x") << j << " & ";
-    os << (matrix[i][dimension - 1] ? "x" : "!x") << dimension - 1;
+    if (matrix[i][dimension - 1] ^ matrix[i][dimension - 1 + dimension])
+      os << (matrix[i][dimension - 1] ? "x" : "!x") << dimension - 1;
 
     if (i != n - 1)
       os << "\nV\n";
