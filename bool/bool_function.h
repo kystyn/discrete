@@ -20,7 +20,10 @@ class bool_function {
 private:
   std::shared_ptr<bf_representation::base> representation;
 
+  void input( std::istream &is );
   void output( std::ostream &os ) const;
+
+  friend std::istream & operator>>( std::istream &is, bool_function &bf );
   friend std::ostream & operator<<( std::ostream &os, bool_function const &bf );
 
 public:
@@ -40,3 +43,4 @@ public:
 };
 
 std::ostream & operator<<( std::ostream &os, bool_function const &bf );
+std::istream & operator>>( std::istream &is, bool_function &bf );

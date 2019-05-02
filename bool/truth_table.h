@@ -8,10 +8,11 @@ class truth_table : public base {
 public:
   truth_table( std::vector<bool> const &truthTable = {} );
 
-  bool eval(std::vector<bool> const &argument ) const final;
-  void output( std::ostream &os ) const final;
+  bool eval(std::vector<bool> const &argument ) const override final;
+  void input( std::istream &os ) override final;
+  void output( std::ostream &os ) const override final;
 
-  void convert( base & ) const;
+  void convert( base & ) const override;
 
   std::vector<bool> const & getTable( void ) const;
 private:

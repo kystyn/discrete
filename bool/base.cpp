@@ -18,6 +18,14 @@ uint bf_representation::base::grayEncode( uint binary ) {
   return binary ^ (binary >> 1);
 }
 
+uint bf_representation::base::grayDecode( uint gray ) {
+  unsigned int bin;
+    for (bin = 0; gray; gray >>= 1) {
+      bin ^= gray;
+    }
+    return bin;
+}
+
 bool bf_representation::base::bool_pow( bool x, bool y ) {
   return x == y;
 }
@@ -68,8 +76,17 @@ std::ostream & bf_representation::operator<<( std::ostream &os, std::vector<std:
 std::ostream & bf_representation::operator<<( std::ostream &os, std::vector<bool> const &v ) {
   for (auto x : v)
     std::cout << x << ' ';
-  std::cout << std::endl;
 
   return os;
+}
+
+std::istream & bf_representation::operator>>( std::istream &is, std::vector<bool> &v ) {
+  for (auto &x : v) {
+    bool q;
+    is >> q;
+    x = q;
+  }
+
+  return is;
 }
 

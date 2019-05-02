@@ -7,8 +7,16 @@ std::ostream & operator<<( std::ostream &os, bool_function const &bf ) {
   return os;
 }
 
+std::istream & operator>>( std::istream &is, bool_function &bf ) {
+  bf.input(is);
+}
+
 bool bool_function::operator()( std::vector<bool> const &argument ) const {
   return representation->eval(argument);
+}
+
+void bool_function::input( std::istream &is ) {
+  representation->input(is);
 }
 
 void bool_function::output( std::ostream &os ) const {

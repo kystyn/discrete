@@ -32,8 +32,32 @@ bool bf_representation::perfect_disjunctuve_normal_form::eval(std::vector<bool> 
   return res;
 }
 
+void bf_representation::perfect_disjunctuve_normal_form::input( std::istream &is ) {
+  is >> dimension;
+  bool q;
+  while (is >> q) {
+    std::vector<bool> sign(dimension);
+    sign[0] = q;
+
+    for (uint i = 1; i < dimension; i++) {
+      is >> q;
+      sign[i] = q;
+    }
+  }
+}
+
 void bf_representation::perfect_disjunctuve_normal_form::output( std::ostream &os ) const {
-  os << matrix;
+  for (uint i = 0, n = matrix.size(); i < n; i++) {
+    os << ' ';
+    for (uint j = 0; j < dimension - 1; j++)
+      os << (matrix[i][j] ? "x" : "!x") << j << " & ";
+    os << (matrix[i][dimension - 1] ? "x" : "!x");
+
+    if (i != n - 1)
+      os << "\nV\n";
+    else
+      os << "\n";
+  }
 }
 
 void bf_representation::perfect_disjunctuve_normal_form::convertToRDNF( rdnf &r ) const {

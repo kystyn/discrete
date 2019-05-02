@@ -10,8 +10,9 @@ namespace bf_representation {
   public:
     carnaugh_map( std::vector<std::vector<bool>> const &m = {}, uint dim = 0 );
 
-    bool eval( std::vector<bool> const &arg ) const;
-    void output( std::ostream &os ) const;
+    bool eval( std::vector<bool> const &arg ) const override final;
+    void input( std::istream &os ) override final;
+    void output( std::ostream &os ) const override final;
     void convert( bf_representation::base &b ) const;
   private:
     std::vector<std::vector<bool>> map;

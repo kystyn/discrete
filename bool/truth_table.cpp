@@ -11,8 +11,16 @@ bf_representation::truth_table::truth_table( std::vector<bool> const &truthTable
     std::cerr << "TT constructor :: bad truth table!";
 }
 
+void bf_representation::truth_table::input( std::istream &is ) {
+  is >> dimension;
+  truthTable.resize(1 << dimension);
+  is >> truthTable;
+}
+
 void bf_representation::truth_table::output( std::ostream &os ) const {
-  os << truthTable;
+  for (uint i = 0, n = truthTable.size(); i < n; i++) {
+    os << base::binaryEncode(i, dimension) << '|' << truthTable[i] << '\n';
+  }
 }
 
 bool bf_representation::truth_table::eval(std::vector<bool> const &argument ) const {
@@ -95,8 +103,8 @@ void bf_representation::truth_table::convertToCarnaughMap( carnaugh_map &cMap ) 
   for (uint y = 0, n = matrix.size(); y < n; y++)
     for (uint x = 0, m = matrix[0].size(); x < m; x++) {
       auto
-          binX = base::binaryEncode(base::grayEncode(x)),
-          binY = base::binaryEncode(base::grayEncode(y));
+          binX = base::binaryEncode(base::grayDecode(x), (dimension + 1) / 2),
+          binY = base::binaryEncode(base::grayDecode(y), dimension / 2);
 
       for (auto x : binX)
         binY.push_back(x);

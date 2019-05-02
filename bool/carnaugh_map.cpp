@@ -25,8 +25,44 @@ bool bf_representation::carnaugh_map::eval( std::vector<bool> const &arg ) const
   return map[y][x];
 }
 
+void bf_representation::carnaugh_map::input( std::istream &is ) {
+  is >> dimension;
+  map.resize(dimension / 2);
+
+  for (auto &x : map)
+    x.resize((dimension + 1) / 2);
+
+  for (auto &y : map)
+    is >> y;
+}
+
 void bf_representation::carnaugh_map::output( std::ostream &os ) const {
-  os << map;
+  /* header */
+  for (uint x = 0; x < dimension; x++)
+    os << ' ';
+  for (uint i = 0, n = (1 << ((dimension + 1) / 2)); i < n; i++) {
+    auto sign = base::binaryEncode(base::grayDecode(i), (dimension + 1) / 2);
+    for (auto x : sign)
+      os << x;
+    os << ' ';
+  }
+
+  os << std::endl;
+
+  /* values */
+  for (uint i = 0, n = (1 << (dimension / 2)); i < n; i++) {
+    /* signature */
+    auto sign = base::binaryEncode(base::grayDecode(i), dimension / 2);
+    for (auto x : sign)
+      os << x;
+
+    for (uint j = 0, m = (1 << ((dimension + 1) / 2)); j < m; j++) {
+      for (uint x = 0; x < (dimension + 1) / 2; x++)
+        os << ' ';
+      os << map[i][j];
+    }
+    os << std::endl;
+  }
 }
 
 void bf_representation::carnaugh_map::convert( bf_representation::base &b ) const {

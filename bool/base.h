@@ -13,6 +13,7 @@ protected:
   std::string specificator;
 
   virtual bool eval( std::vector<bool> const &argument ) const = 0;
+  virtual void input( std::istream &is ) = 0;
   virtual void output( std::ostream &os ) const = 0;
   virtual void convert( base &b ) const {}
   void  convertToTruthTable ( bf_representation::truth_table &b ) const;
@@ -32,6 +33,7 @@ public:
   static uint binaryDecode( std::vector<bool> const &bin );
 };
 
+std::istream & operator>>( std::istream &is, std::vector<bool> &v );
 std::ostream & operator<<( std::ostream &os, std::vector<std::vector<bool>> const &v );
 std::ostream & operator<<( std::ostream &os, std::vector<bool> const &v );
 }

@@ -55,6 +55,26 @@ void bf_representation::zhegalkin::convert( base &b ) const {
   }
 }
 
+void bf_representation::zhegalkin::input( std::istream &is ) {
+  is >> dimension;
+  coefficients.resize(1 << dimension);
+  is >> coefficients;
+}
+
 void bf_representation::zhegalkin::output( std::ostream &os ) const {
-  os << coefficients;
+  if (coefficients[0])
+    os << "1 ^\n";
+  for (uint i = 1, n = coefficients.size(); i < n; i++)
+    if (coefficients[i]) {
+      auto sign = base::binaryEncode(i, dimension);
+
+      for (uint j = 0; j < dimension; j++)
+        if (sign[j])
+          os << 'x' << j;
+
+      if (i != n - 1)
+        os << " ^\n";
+      else
+        os << "\n";
+    }
 }

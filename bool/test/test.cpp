@@ -21,9 +21,9 @@ bool operator==( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
   return true;
 }
 
-const uint dim = 8;
-const std::vector<bool> default_tt(1 << dim, true);
-//const std::vector<bool> default_tt({1, 0, 0, 1, 1, 1, 0, 1});
+const uint dim = 5;
+//const std::vector<bool> default_tt(1 << dim, true);
+const std::vector<bool> default_tt({1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1});
 const bool_function default_bf(std::shared_ptr<truth_table>(new truth_table(default_tt)));
 
 TEST(TT, Eval) {
@@ -37,6 +37,7 @@ TEST(TT, TT__PDNF) {
   auto bf = default_bf;
 
   bf.convert<perfect_disjunctuve_normal_form>();
+  std::cout << bf;
   bf.convert<truth_table>();
 
   auto ptr = bf.getRepresentation().get();
@@ -59,6 +60,7 @@ TEST(TT, TT__RDNF) {
   auto bf = default_bf;
 
   bf.convert<reduced_disjunctuve_normal_form>();
+  std::cout << bf;
   bf.convert<truth_table>();
 
   auto ptr = bf.getRepresentation().get();
@@ -137,6 +139,7 @@ TEST(TT, TT__Zhegalkin) {
 TEST(TT, TT_Carnaugh) {
   bool_function bf = default_bf;
   bf.convert<carnaugh_map>();
+  std::cout << bf;
   bf.convert<truth_table>();
 
   auto ptr = bf.getRepresentation().get();
@@ -155,7 +158,6 @@ TEST(Zhegalkin, Zhegalkin_Carnaugh) {
 
   ASSERT_TRUE(((const truth_table *)ptr)->getTable() == default_tt);
 }
-
 
 int main( int argc, char *argv[] ) {
   testing::InitGoogleTest(&argc, argv);
