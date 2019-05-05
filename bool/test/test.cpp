@@ -8,6 +8,8 @@
 #include "zhegalkin.h"
 #include "carnaugh_map.h"
 
+#include "properties_checker.h"
+
 using namespace bf_representation;
 
 bool operator==( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
@@ -181,13 +183,63 @@ TEST(Gray, codes_full) {
 }
 
 TEST(BoolMultiply, 1) {
-  ASSERT_TRUE(base::binaryDecode(base::binaryEncode(3) * base::binaryEncode(7)) == 3 * 7);
+  ASSERT_TRUE(base::binaryDecode(base::binaryEncode(198) * base::binaryEncode(198)) == 198 * 198);
   uint n = 128;
 
   for (uint i = 0; i <= n; i++)
     for (uint j = i; j <= n; j++) {
       ASSERT_TRUE(base::binaryDecode(base::binaryEncode(i) * base::binaryEncode(j)) == i * j);
     }
+}
+
+TEST(Checker, ZeroPreserve) {
+  bool_function bf(std::shared_ptr<truth_table>(new truth_table({0, 0, 1, 1})));
+  properties_checker chk(bf);
+  ASSERT_TRUE(chk.checkZeroPreserve());
+
+  bf = bool_function(std::shared_ptr<truth_table>(new truth_table({1, 0, 1, 1})));
+  chk = properties_checker(bf);
+  ASSERT_FALSE(chk.checkZeroPreserve());
+}
+
+TEST(Checker, OnePreserve) {
+  bool_function bf(std::shared_ptr<truth_table>(new truth_table({0, 0, 1, 0})));
+  properties_checker chk(bf);
+  ASSERT_FALSE(chk.checkOnePreserve());
+
+  bf = bool_function(std::shared_ptr<truth_table>(new truth_table({1, 0, 1, 1})));
+  chk = properties_checker(bf);
+  ASSERT_TRUE(chk.checkOnePreserve());
+}
+
+TEST(Checker, Linear) {
+  bool_function bf(std::shared_ptr<zhegalkin>(new zhegalkin({1, 1, 1, 0, 0, 0, 0, 0})));
+  properties_checker chk(bf);
+  ASSERT_TRUE(chk.checkLinear());
+
+  bf = bool_function(std::shared_ptr<zhegalkin>(new zhegalkin({1, 0, 1, 1, 1, 0, 0, 0})));
+  chk = properties_checker(bf);
+  ASSERT_FALSE(chk.checkLinear());
+}
+
+TEST(Checker, SelfDuality) {
+  bool_function bf(std::shared_ptr<truth_table>(new truth_table({1, 0, 1, 0, 1, 0, 1, 0})));
+  properties_checker chk(bf);
+  ASSERT_TRUE(chk.checkSelfDuality());
+
+  bf = bool_function(std::shared_ptr<truth_table>(new truth_table({1, 0, 0, 0, 1, 0, 1, 0})));
+  chk = properties_checker(bf);
+  ASSERT_FALSE(chk.checkSelfDuality());
+}
+
+TEST(Checker, Monotone) {
+  bool_function bf(std::shared_ptr<truth_table>(new truth_table({1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0})));
+  properties_checker chk(bf);
+  ASSERT_FALSE(chk.checkMonotone());
+
+  bf = bool_function(std::shared_ptr<truth_table>(new truth_table({1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})));
+  chk = properties_checker(bf);
+  ASSERT_TRUE(chk.checkMonotone());
 }
 
 int main( int argc, char *argv[] ) {

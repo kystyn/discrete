@@ -2,9 +2,9 @@
 #include "truth_table.h"
 
 void bf_representation::base::convertToTruthTable( bf_representation::truth_table &b ) const {
-  std::vector<bool> tt(1 << dimension);
+  std::vector<bool> tt((uint)(1 << dimension));
 
-  for (uint i = 0; i < (1 << dimension); i++)
+  for (uint i = 0; i < (uint)(1 << dimension); i++)
     tt[i] = eval(base::binaryEncode(i, dimension));
 
   b = tt;
@@ -63,11 +63,15 @@ uint bf_representation::base::binaryDecode( std::vector<bool> const &bin ) {
   return dec;
 }
 
+uint bf_representation::base::getDimension( void ) const {
+  return dimension;
+}
+
 std::ostream & bf_representation::operator<<( std::ostream &os, std::vector<std::vector<bool>> const &v ) {
   for (auto y : v) {
     for (auto x : y)
-      std::cout << x << ' ';
-    std::cout << '\n';
+      os << x << ' ';
+    os << '\n';
   }
 
   return os;
@@ -75,7 +79,7 @@ std::ostream & bf_representation::operator<<( std::ostream &os, std::vector<std:
 
 std::ostream & bf_representation::operator<<( std::ostream &os, std::vector<bool> const &v ) {
   for (auto x : v)
-    std::cout << x << ' ';
+    os << x << ' ';
 
   return os;
 }
@@ -121,5 +125,15 @@ std::vector<bool> bf_representation::operator*( std::vector<bool> const &v1, std
     }
   }
   return res;
+}
+
+bool bf_representation::operator<=( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
+  if (v1.size() != v2.size())
+    return false;
+
+  for (uint i = 0, n = v1.size(); i < n; i++)
+    if (v1[i] & !v2[i] || v1[i]) // v1[i] > v2[i]
+      return false;
+  return true;
 }
 

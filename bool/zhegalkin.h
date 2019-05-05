@@ -11,6 +11,8 @@ public:
   void convert( base &b ) const override;
   void input( std::istream &is ) override final;
   void output( std::ostream &os ) const override final;
+
+  std::vector<bool> const & getCoeffs( void ) const;
 private:
   std::vector<bool> coefficients;
 };

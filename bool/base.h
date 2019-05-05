@@ -22,6 +22,7 @@ public:
   base( uint dimension, std::string const &spec ) : dimension(dimension), specificator(spec) {}
 
   std::string getSpecificator( void ) const;
+  uint getDimension( void ) const;
 
   static uint grayEncode( uint binary );
   static uint grayDecode( uint gray );
@@ -38,4 +39,5 @@ std::ostream & operator<<( std::ostream &os, std::vector<std::vector<bool>> cons
 std::ostream & operator<<( std::ostream &os, std::vector<bool> const &v );
 std::vector<bool> operator*( std::vector<bool> const &v1, std::vector<bool> const &v2 );
 std::vector<bool> operator*( std::vector<bool> const &v1, bool v2 );
+bool operator<=( std::vector<bool> const &v1, std::vector<bool> const &v2 );
 }

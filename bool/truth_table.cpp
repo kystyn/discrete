@@ -7,13 +7,13 @@
 
 bf_representation::truth_table::truth_table( std::vector<bool> const &truthTable ) :
   base(truthTable.size() != 0 ? (uint)log2(truthTable.size()) : 0, "TT"), truthTable(truthTable) {
-  if (1 << dimension != truthTable.size() && truthTable.size() != 0)
+  if ((uint)(1 << dimension) != truthTable.size() && truthTable.size() != 0)
     std::cerr << "TT constructor :: bad truth table!";
 }
 
 void bf_representation::truth_table::input( std::istream &is ) {
   is >> dimension;
-  truthTable.resize(1 << dimension);
+  truthTable.resize((uint)(1 << dimension));
   is >> truthTable;
 }
 
@@ -45,9 +45,9 @@ void bf_representation::truth_table::convert( bf_representation::base &b ) const
 void bf_representation::truth_table::convertToPDNF( pdnf &p ) const {
   std::vector<std::vector<bool>> m;
 
-  m.reserve(1 << dimension);
+  m.reserve((uint)(1 << dimension));
 
-  for (uint i = 0; i < (1 << dimension); i++)
+  for (uint i = 0; i < (uint)(1 << dimension); i++)
     if (truthTable[i])
       m.push_back(base::binaryEncode(i, dimension));
 
@@ -63,13 +63,13 @@ void bf_representation::truth_table::convertToRDNF( rdnf &r ) const {
 }
 
 void bf_representation::truth_table::convertToZhegalkin( zhegalkin &zh ) const {
-  std::vector<bool> coeffs(1 << dimension, false), cur = coeffs;
+  std::vector<bool> coeffs((uint)(1 << dimension), false), cur = coeffs;
   auto prev = truthTable;
 
   coeffs[0] = truthTable[0];
 
-  for (uint i = 1; i < (1 << dimension); i++) {
-    for (uint j = 0; j < (1 << dimension) - i; j++)
+  for (uint i = 1; i < (uint)(1 << dimension); i++) {
+    for (uint j = 0; j < (uint)(1 << dimension) - i; j++)
       cur[j] = prev[j + 1] ^ prev[j];
     coeffs[i] = cur.front();
     prev = cur;
@@ -81,7 +81,7 @@ void bf_representation::truth_table::convertToZhegalkin( zhegalkin &zh ) const {
 void bf_representation::truth_table::convertToPCNF( pcnf &p ) const {
   std::vector<std::vector<bool>> m;
 
-  for (uint i = 0; i < (1 << dimension); i++) {
+  for (uint i = 0; i < (uint)(1 << dimension); i++) {
     auto arg = base::binaryEncode(i, dimension), oldarg = arg;
 
     for (auto &x : arg)
@@ -95,10 +95,10 @@ void bf_representation::truth_table::convertToPCNF( pcnf &p ) const {
 }
 
 void bf_representation::truth_table::convertToCarnaughMap( carnaugh_map &cMap ) const {
-  std::vector<std::vector<bool>> matrix(1 << (dimension / 2));
+  std::vector<std::vector<bool>> matrix((uint)(1 << (dimension / 2)));
 
   for (auto &x : matrix)
-    x.resize(1 << ((dimension + 1) / 2));
+    x.resize((uint)(1 << ((dimension + 1) / 2)));
 
   for (uint y = 0, n = matrix.size(); y < n; y++)
     for (uint x = 0, m = matrix[0].size(); x < m; x++) {

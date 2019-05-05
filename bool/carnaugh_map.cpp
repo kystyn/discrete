@@ -40,7 +40,7 @@ void bf_representation::carnaugh_map::output( std::ostream &os ) const {
   /* header */
   for (uint x = 0; x < dimension; x++)
     os << ' ';
-  for (uint i = 0, n = (1 << ((dimension + 1) / 2)); i < n; i++) {
+  for (uint i = 0, n = (uint)(1 << ((dimension + 1) / 2)); i < n; i++) {
     auto sign = base::binaryEncode(base::grayEncode(i), (dimension + 1) / 2);
 
     for (auto x : sign)
@@ -51,13 +51,13 @@ void bf_representation::carnaugh_map::output( std::ostream &os ) const {
   os << std::endl;
 
   /* values */
-  for (uint i = 0, n = (1 << (dimension / 2)); i < n; i++) {
+  for (uint i = 0, n = (uint)(1 << (dimension / 2)); i < n; i++) {
     /* signature */
     auto sign = base::binaryEncode(base::grayEncode(i), dimension / 2);
     for (auto x : sign)
       os << x;
 
-    for (uint j = 0, m = (1 << ((dimension + 1) / 2)); j < m; j++) {
+    for (uint j = 0, m = (uint)(1 << ((dimension + 1) / 2)); j < m; j++) {
       for (uint x = 0; x < (dimension + 1) / 2; x++)
         os << ' ';
       os << map[i][j];

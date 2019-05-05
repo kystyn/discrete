@@ -46,6 +46,9 @@ void bf_representation::perfect_conjunctuve_normal_form::input( std::istream &is
 }
 
 void bf_representation::perfect_conjunctuve_normal_form::output( std::ostream &os ) const {
+  if (matrix.size() == 0)
+    os << "true\n";
+
   for (uint i = 0, n = matrix.size(); i < n; i++) {
     os << ' ';
     for (uint j = 0; j < dimension - 1; j++)
@@ -78,10 +81,10 @@ bool bf_representation::perfect_conjunctuve_normal_form::eval(std::vector<bool> 
 }
 
 void bf_representation::perfect_conjunctuve_normal_form::convertToCarnaughMap( carnaugh_map &cMap ) const {
-  std::vector<std::vector<bool>> map(1 << (dimension / 2));
+  std::vector<std::vector<bool>> map((uint)(1 << (dimension / 2)));
 
   for (auto &x : map)
-    x = std::vector<bool>(1 << ((dimension + 1) / 2), false);
+    x = std::vector<bool>((uint)(1 << ((dimension + 1) / 2)), false);
 
   for (auto &x : matrix) {
     std::vector<bool>

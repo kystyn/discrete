@@ -22,8 +22,8 @@ namespace bf_representation {
     void convertToPerfectNF( T &p ) const {
       std::vector<std::vector<bool>> matrix;
      
-      for (uint y = 0; y < (1 << (dimension / 2)); y++)
-        for (uint x = 0; x < (1 << (dimension + 1) / 2); x++)
+      for (uint y = 0; y < (uint)(1 << (dimension / 2)); y++)
+        for (uint x = 0; x < (uint)(1 << (dimension + 1) / 2); x++)
           if (map[y][x]) {
             auto
               binX = base::binaryEncode(base::grayEncode(x)),

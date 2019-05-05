@@ -14,7 +14,7 @@ bool bf_representation::zhegalkin::eval( std::vector<bool> const &argument ) con
 
   std::vector<bool> sign(dimension, false);
 
-  for (uint i = 1; i < (1 << dimension); i++) {
+  for (uint i = 1; i < (uint)(1 << dimension); i++) {
     bool localRes = true;
     genNextBinary(sign);
 
@@ -57,7 +57,7 @@ void bf_representation::zhegalkin::convert( base &b ) const {
 
 void bf_representation::zhegalkin::input( std::istream &is ) {
   is >> dimension;
-  coefficients.resize(1 << dimension);
+  coefficients.resize((uint)(1 << dimension));
   is >> coefficients;
 }
 
@@ -77,4 +77,8 @@ void bf_representation::zhegalkin::output( std::ostream &os ) const {
       else
         os << "\n";
     }
+}
+
+std::vector<bool> const & bf_representation::zhegalkin::getCoeffs( void ) const {
+  return coefficients;
 }

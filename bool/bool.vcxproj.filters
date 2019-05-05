@@ -69,6 +69,9 @@
     <ClInclude Include="carnaugh_map.h">
       <Filter>Source Files\BF representation\Carnaugh  map</Filter>
     </ClInclude>
+    <ClInclude Include="properties_checker.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

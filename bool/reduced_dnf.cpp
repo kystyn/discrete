@@ -42,6 +42,17 @@ void bf_representation::reduced_disjunctuve_normal_form::input( std::istream &is
 }
 
 void bf_representation::reduced_disjunctuve_normal_form::output( std::ostream &os ) const {
+  if (matrix.size() == 0)
+    os << "false\n";
+  else if (matrix.size() == 1) {
+    bool hasElem = false;
+    for (uint j = 0; j < dimension - 1; j++)
+      if (matrix[0][j] ^ matrix[0][j + dimension])
+        hasElem = true;
+    if (!hasElem)
+      os << "true\n";
+  }
+
   for (uint i = 0, n = matrix.size(); i < n; i++) {
     os << ' ';
     for (uint j = 0; j < dimension - 1; j++)
