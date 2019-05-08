@@ -90,7 +90,8 @@ void bf_representation::perfect_disjunctuve_normal_form::convertToRDNF( rdnf &r 
               std::vector<bool> comb = m[i];
               comb[position] = false;
               comb[position + dimension] = false;
-              m.push_back(comb);
+              if (std::find(m.begin() + n, m.end(), comb) == m.end())
+                m.push_back(comb);
 
               if (std::find(reduced.begin(), reduced.end(), i) == reduced.end())
                 reduced.push_back(i);
@@ -105,12 +106,10 @@ void bf_representation::perfect_disjunctuve_normal_form::convertToRDNF( rdnf &r 
             // merge w | (w & z) = w
             else if (which = compareMerge(position, m[i], m[j])) {
               if (which == 1) {
-                m.push_back(m[j]);
                 if (std::find(reduced.begin(), reduced.end(), i) == reduced.end())
                   reduced.push_back(i);
               }
               else {
-                m.push_back(m[i]);
                 if (std::find(reduced.begin(), reduced.end(), j) == reduced.end())
                   reduced.push_back(j);
               }
@@ -124,13 +123,13 @@ void bf_representation::perfect_disjunctuve_normal_form::convertToRDNF( rdnf &r 
       m.erase(m.begin() + (reduced[i] - i));
 
     // remove same strings
-    std::vector<std::vector<bool>>::iterator it;
-    for (int i = 0, n = m.size() - 1; i < n; i++)
-      for (int j = i + 1; j < m.size();)
-        if ((it = std::find(m.begin() + j, m.end(), m[i])) != m.end())
-          m.erase(it);
-        else
-          j++;
+    ///std::vector<std::vector<bool>>::iterator it;
+    ///for (int i = 0, n = m.size() - 1; i < n; i++)
+    ///  for (int j = i + 1; j < m.size();)
+    ///    if ((it = std::find(m.begin() + j, m.end(), m[i])) != m.end())
+    ///      m.erase(it);
+    ///    else
+    ///      j++;
   } while (reducedAnything);
 
   r = rdnf(m, dimension);

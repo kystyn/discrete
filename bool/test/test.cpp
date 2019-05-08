@@ -23,7 +23,7 @@ bool operator==( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
   return true;
 }
 
-const uint dim = 4;
+const uint dim = 9;
 const std::vector<bool> default_tt(1 << dim, true);
 /*const std::vector<bool> default_tt({1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
   1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
