@@ -57,6 +57,7 @@ int main( void ) {
     ofs << (chk.checkMonotone() ? "Is monotone\n" : "Is not monotone\n");
     ofs << (chk.checkLinear() ? "Is linear\n" : "Is not linear\n");
     ofs << (chk.checkSymmetric() ? "Is symmetric\n" : "Is not symmetric\n");
+    ofs << (chk.checkSelfDuality() ? "Is self-dual\n" : "Is not self-dual\n");
 
   } catch (char const *str) {
     std::cerr << "exception thrown: " << str << std::endl;
