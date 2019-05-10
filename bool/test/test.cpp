@@ -12,6 +12,17 @@
 
 using namespace bf_representation;
 
+std::vector<bool> genFunction( uint N, uint dim ) {
+  auto table = base::binaryEncode(192 + N, 8);
+  for (uint i = 2; i <= 1 << (dim - 3); i <<= 1)
+    table = table * table;
+
+  for (; table.size() < 1 << dim;)
+    table.push_back(false);
+
+  return table;
+}
+
 bool operator==( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
   if (v1.size() != v2.size())
     return false;
@@ -23,8 +34,9 @@ bool operator==( std::vector<bool> const &v1, std::vector<bool> const &v2 ) {
   return true;
 }
 
-const uint dim = 9;
-const std::vector<bool> default_tt(1 << dim, true);
+const uint dim = 10;
+//const std::vector<bool> default_tt(1 << dim, true);
+const std::vector<bool> default_tt = genFunction(6, dim);
 /*const std::vector<bool> default_tt({1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
   1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
   1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1,
@@ -46,7 +58,7 @@ TEST(TT, TT__PDNF) {
   auto bf = default_bf;
 
   bf.convert<perfect_disjunctuve_normal_form>();
-  std::cout << bf;
+  ///std::cout << bf;
   bf.convert<truth_table>();
 
   auto ptr = bf.getRepresentation().get();
@@ -69,7 +81,7 @@ TEST(TT, TT__RDNF) {
   auto bf = default_bf;
 
   bf.convert<reduced_disjunctuve_normal_form>();
-  std::cout << bf;
+  ///std::cout << bf;
   bf.convert<truth_table>();
 
   auto ptr = bf.getRepresentation().get();
@@ -148,7 +160,7 @@ TEST(TT, TT__Zhegalkin) {
 TEST(TT, TT_Carnaugh) {
   bool_function bf = default_bf;
   bf.convert<carnaugh_map>();
-  std::cout << bf;
+  ///std::cout << bf;
   bf.convert<truth_table>();
 
   auto ptr = bf.getRepresentation().get();

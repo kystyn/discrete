@@ -97,7 +97,7 @@ void bf_representation::perfect_conjunctuve_normal_form::convertToCarnaughMap( c
     for (uint i = 0; i < dimension / 2; i++)
       argY[i] = x[i];
 
-    map[base::grayEncode(base::binaryDecode(argY))][base::grayEncode(base::binaryDecode(argX))] = true;
+    map[base::grayDecode(base::binaryDecode(argY))][base::grayDecode(base::binaryDecode(argX))] = true;
   }
 
   cMap = carnaugh_map(map, dimension);

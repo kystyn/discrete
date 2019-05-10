@@ -19,8 +19,8 @@ bool bf_representation::carnaugh_map::eval( std::vector<bool> const &arg ) const
     argY[i] = arg[i];
 
   uint
-    x = base::grayEncode(base::binaryDecode(argX)),
-    y = base::grayEncode(base::binaryDecode(argY));
+    x = base::grayDecode(base::binaryDecode(argX)),
+    y = base::grayDecode(base::binaryDecode(argY));
 
   return map[y][x];
 }

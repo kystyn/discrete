@@ -101,10 +101,10 @@ void bf_representation::truth_table::convertToCarnaughMap( carnaugh_map &cMap ) 
     x.resize((uint)(1 << ((dimension + 1) / 2)));
 
   for (uint y = 0, n = matrix.size(); y < n; y++)
-    for (uint x = 0, m = matrix[0].size(); x < m; x++) {
+    for (uint x = 0, m = matrix[0].size(); x < m; x++) {   //x, y are Gray codes numbers
       auto
-          binX = base::binaryEncode(base::grayDecode(x), (dimension + 1) / 2),
-          binY = base::binaryEncode(base::grayDecode(y), dimension / 2);
+          binX = base::binaryEncode(base::grayEncode(x), (dimension + 1) / 2),
+          binY = base::binaryEncode(base::grayEncode(y), dimension / 2);
 
       for (auto x : binX)
         binY.push_back(x);
