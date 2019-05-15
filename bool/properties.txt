@@ -1,0 +1,6 @@
+Zero is preserved
+One is not preserved
+Is not monotone
+Is not linear
+Is not symmetric
+Is not self-dual
