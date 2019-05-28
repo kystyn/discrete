@@ -58,19 +58,20 @@ myuint32 combNumbers::C( unsigned int m, unsigned int n ) {
 
   for (unsigned int i = 1; i <= m; i++) {
     unsigned int
-        prevs = std::min((i + 1) / 2, n + 1),
-        s = std::min((i + 2) / 2, n + 1);
+        prevs = std::min(i + 1, n + 1),
+        s = prevs;
 
     myuint32
         left = comb[0],
         whereToWrite = comb[0],
         prevlast = comb[prevs - 1];
-    for (unsigned int j = 1; j < s - (i % 2 == 0); j++) {
+    for (int j = std::max<int>(1, (int)s - (int)n); j < s; j++) {
 
       whereToWrite = comb[j];
       comb[j] += left;
       left = whereToWrite;
     }
+
     comb[s - 1] += prevlast * 2 * (i % 2 == 0);
   }
 

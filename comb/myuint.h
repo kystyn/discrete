@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ostream>
+using uint = unsigned int;
 
 class myuint32 {
 private:
