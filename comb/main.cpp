@@ -45,9 +45,10 @@ void stakhov( void ) {
 
 int main( void ) {
 
+    combNumbers::C(12,5);
   //testAll();
   //menu();
-    stakhov();
+  //stakhov();
 
   return 0;
 }

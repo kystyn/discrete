@@ -56,6 +56,9 @@ myuint32 combNumbers::C( unsigned int m, unsigned int n ) {
   std::vector<myuint32> comb(n + 1, 0);
   comb[0] = 1;
 
+  if (n == 0)
+      return 1;
+
   for (unsigned int i = 1; i <= m; i++) {
     unsigned int
         prevs = std::min((i + 1) / 2, n + 1),
@@ -65,16 +68,13 @@ myuint32 combNumbers::C( unsigned int m, unsigned int n ) {
         left = comb[0],
         whereToWrite = comb[0],
         prevlast = comb[prevs - 1];
-    for (unsigned int j = 1; j < s - (i % 2 == 0); j++) {
+    for (int j = 1/*std::min(1U, s - n + 1)*/; j < s - (i % 2 == 0); j++) {
 
       whereToWrite = comb[j];
       comb[j] += left;
       left = whereToWrite;
     }
     comb[s - 1] += prevlast * 2 * (i % 2 == 0);
-
-      // C(i - 1, j) == C(i - 1, j + 1) when j == i / 2 and i % 2 == 0
-      // there are no other cases when j > prevcomb.size()
   }
 
   return comb[n];
