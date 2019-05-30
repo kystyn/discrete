@@ -9,4 +9,7 @@ SOURCES += \
 
 HEADERS += \
     def.h \
-    multigraph.h
+    matr.h \
+    multigraph.h \
+    sparse_matrix.h \
+    vec.h

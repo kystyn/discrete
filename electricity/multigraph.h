@@ -19,7 +19,6 @@ public:
     multigraph();
 
 private:
-    std::vector<edge> Edges;
     std::vector<std::vector<int>> IncidenceMatr;
     friend std::istream & operator>>( std::istream &, multigraph & );
 };
