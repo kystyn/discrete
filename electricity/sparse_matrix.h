@@ -9,6 +9,8 @@ namespace mth {
 template<typename T>
 class sparse_matrix : public matr<T> {
 public:
+    sparse_matrix( void ) {}
+
     sparse_matrix( std::vector<std::map<uint, T>> const &M ) :
         Matrix(M) {}
 
@@ -16,18 +18,26 @@ public:
         Matrix.resize(H);
     }
 
-    T operator()( uint y, uint x ) const {
+    void reset( uint NewH, uint NewW ) override {
+        matr<T>::H = NewH;
+        matr<T>::W = NewW;
+        Matrix.clear();
+    }
+
+    T operator()( uint y, uint x ) const override {
         if (x < 0 || x >= matr<T>::W || y < 0 || y >= matr<T>::H)
             throw "Bad index";
 
-        std::map<uint, T>::const_iterator it;
+        typename std::map<uint, T>::const_iterator it;
 
         if ((it = Matrix[y].find(x)) != Matrix[x].end())
-            return *it;
+            return it->second;
         return 0;
     }
 
-    T & operator()( uint y, uint x ) {
+    T & operator()( uint y, uint x ) override {
+        if (x < 0 || x >= matr<T>::W || y < 0 || y >= matr<T>::H)
+            throw "Bad index";
         return Matrix[y][x];
     }
 

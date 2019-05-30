@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "sparse_matrix.h"
 #include "def.h"
 
 struct edge {
@@ -19,7 +20,7 @@ public:
     multigraph();
 
 private:
-    std::vector<std::vector<int>> IncidenceMatr;
+    mth::sparse_matrix<float> IncidenceMatr;
     friend std::istream & operator>>( std::istream &, multigraph & );
 };
 

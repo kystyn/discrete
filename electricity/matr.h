@@ -2,11 +2,17 @@
 
 #include <vector>
 #include <cmath>
+#include <type_traits>
 
 #include "def.h"
 
 /* Matrix class */
 namespace mth {
+
+// forward declaration
+template<typename MatrType>
+MatrType operator*( MatrType const &A, MatrType const &B );
+
 template<typename T>
 class matr {
 protected:
@@ -35,8 +41,9 @@ public:
   size_t getW() const { return W; }
   size_t getH() const { return H; }
 
-  virtual T operator()( uint y, uint x ) const { return x + y; }
-  virtual T & operator()( uint y, uint x ) { return x + y; }
+  virtual void reset( uint NewH, uint NewW ) {}
+  virtual T operator()( uint y, uint x ) const { return (T)0; }
+  virtual T & operator()( uint y, uint x ) { T t; return t; }
 
   /* Matrix mul vector function.
    * ARGUMENTS:
@@ -75,7 +82,7 @@ public:
    *   M, N, K;
    * RETURNS: matrix (M X K).
    */
-  matr & operator*=( double Num ) {
+  matr & operator*=( T Num ) {
 
     for (unsigned int i = 0; i < H; i++)
       for (unsigned int j = 0; j < W; j++)
@@ -84,8 +91,8 @@ public:
     return *this;
   }
 
-  double operator!( void ) const {
-    double n = 0;
+  T operator!( void ) const {
+    T n = 0;
 
     for (unsigned int i = 0; i < H; i++)
       for (unsigned int j = 0; j < W; j++)
@@ -101,24 +108,18 @@ public:
  *   M, N, K;
  * RETURNS: matrix (M X K).
  */
-template<typename T1, typename MatrType1,
-         typename T2, typename MatrType2,
-         typename ResultMatrType, typename T3,
-         typename = typename std::enable_if<
-             std::is_base_of<MatrType1, mth::matr<T1>>::value &&
-             std::is_base_of<MatrType2, mth::matr<T2>>::value &&
-             std::is_base_of<ResultMatrType, mth::matr<T3>>::value>::type>
-ResultMatrType operator*( MatrType1 const &A, MatrType2 const &B ) {
-  if (A.W != B.H)
+template<typename MatrType>
+MatrType operator*( MatrType const &A, MatrType const &B ) {
+  if (A.getW() != B.getH())
     throw "matr * matr: size mismatch\n";
 
-  ResultMatrType C(A.H, B.W);
+  MatrType C(A.getH(), B.getW());
 
-  for (unsigned int i = 0; i < A.H; i++)
-    for (unsigned int j = 0; j < B.W; j++)
+  for (unsigned int i = 0; i < A.getH(); i++)
+    for (unsigned int j = 0; j < B.getW(); j++)
     {
       C(i, j) = 0;
-      for (unsigned int k = 0; k < B.W; k++)
+      for (unsigned int k = 0; k < A.getW(); k++)
         C(i, j) += A(i, k) * B(k, j);
     }
 
@@ -131,65 +132,49 @@ ResultMatrType operator*( MatrType1 const &A, MatrType2 const &B ) {
  *   M, N, K;
  * RETURNS: matrix (M X K).
  */
-template<typename T, typename MatrType,
-         typename = typename std::enable_if<
-             std::is_base_of<T, MatrType>::value>::type>
+template<typename MatrType, typename T>
 MatrType operator*( MatrType M, T Num ) {
   MatrType C = M;
 
-  for (unsigned int i = 0; i < M.H; i++)
-    for (unsigned int j = 0; j < M.W; j++)
+  for (unsigned int i = 0; i < M.getH(); i++)
+    for (unsigned int j = 0; j < M.getW(); j++)
       C(i, j) *= Num;
 
   return C;
 }
 
-template<typename T1, typename MatrType1,
-         typename T2, typename MatrType2,
-         typename ResultMatrType, typename T3,
-         typename = typename std::enable_if<
-             std::is_base_of<MatrType1, mth::matr<T1>>::value &&
-             std::is_base_of<MatrType2, mth::matr<T2>>::value &&
-             std::is_base_of<ResultMatrType, mth::matr<T3>>::value>::type>
-ResultMatrType operator+( MatrType1 const &A, MatrType2 const &B ) {
-  if (A.H != B.H && A.W != B.W)
+template<typename MatrType>
+MatrType operator+( MatrType const &A, MatrType const &B ) {
+  if (A.getH() != B.getH() && A.getW() != B.getW())
     throw "matr + matr: size mismatch\n";
 
-  ResultMatrType C(A.H, A.W);
-  for (unsigned int i = 0; i < A.H; i++)
-    for (unsigned int j = 0; j < A.W; j++)
+  MatrType C(A.getH(), A.getW());
+  for (unsigned int i = 0; i < A.getH(); i++)
+    for (unsigned int j = 0; j < A.getW(); j++)
       C(i, j) = A(i, j) + B(i, j);
 
   return C;
 }
 
-template<typename T1, typename MatrType1,
-         typename T2, typename MatrType2,
-         typename ResultMatrType, typename T3,
-         typename = typename std::enable_if<
-             std::is_base_of<MatrType1, mth::matr<T1>>::value &&
-             std::is_base_of<MatrType2, mth::matr<T2>>::value &&
-             std::is_base_of<ResultMatrType, mth::matr<T3>>::value>::type>
-ResultMatrType operator-( MatrType1 const &A, MatrType2 const &B ) {
-  if (A.H != B.H && A.W != B.W)
+template<typename MatrType>
+MatrType operator-( MatrType const &A, MatrType const &B ) {
+  if (A.getH() != B.getH() && A.getW() != B.getW())
     throw "matr + matr: size mismatch\n";
 
-  ResultMatrType C(A.H, A.W);
-  for (unsigned int i = 0; i < A.H; i++)
-    for (unsigned int j = 0; j < A.W; j++)
+  MatrType C(A.getH(), A.getW());
+  for (unsigned int i = 0; i < A.getH(); i++)
+    for (unsigned int j = 0; j < A.getW(); j++)
       C(i, j) = A(i, j) - B(i, j);
 
   return C;
 }
 
-template<typename T, typename MatrType,
-         typename = typename std::enable_if<
-             std::is_base_of<T, MatrType>::value>::type>
-MatrType transposing( MatrType A ) {
-  MatrType At(A.W, A.H);
+template<typename MatrType>
+MatrType transposing( MatrType const &A ) {
+  MatrType At(A.getW(), A.getH());
 
-  for (unsigned int i = 0; i < A.W; i++)
-    for (unsigned int j = 0; j < A.H; j++)
+  for (unsigned int i = 0; i < A.getW(); i++)
+    for (unsigned int j = 0; j < A.getH(); j++)
       At(i, j) = A(j, i);
 
   return At;
@@ -202,26 +187,34 @@ MatrType transposing( MatrType A ) {
  *   M, N;
  * RETURNS: vector (M).
  */
-template<typename T1, typename MatrType1,
-         typename T,
-         typename = typename std::enable_if<
-             std::is_base_of<MatrType1, matr<T1>>::value >::type>
-vec<T> operator*( MatrType1 const &A, vec<T> const &b ) {
+template<typename MatrType,
+         typename T>
+vec<T> operator*( MatrType const &A, vec<T> const &b ) {
   int i, j;
 
-  if (A.W != b.getN())
+  if (A.getW() != b.getN())
     throw "matr * vec: size mismatch\n";
 
-  vec<T> x(A.H);
+  vec<T> x(A.getH());
 
-  for (i = 0; i < A.H; i++) {
+  for (i = 0; i < A.getH(); i++) {
     double r = 0;
-    for (j = 0; j < A.W; j++) {
+    for (j = 0; j < A.getW(); j++) {
       r += A(i, j) * b[j];
     }
     x[i] = r;
   }
 
   return x;
+}
+
+template<typename MatrType>
+MatrType & operator*=( MatrType &A, MatrType const &B ) {
+  if (A.getW() != B.getH())
+    throw "matr * matr: size mismatch\n";
+
+  A = A * B;
+
+  return A;
 }
 }
